@@ -1,7 +1,10 @@
-import { useLocation, Link } from '@tanstack/react-router';
-import { Menu, Search, Bell, CalendarDays, ChevronDown, Store } from 'lucide-react';
+import { useLocation, Link, useNavigate } from '@tanstack/react-router';
+import { Menu, Search, Bell, CalendarDays, ChevronDown, Store, LogOut } from 'lucide-react';
 import { MENU_ITEMS } from './menu';
 import { CURRENT_USER } from '@/shared/constants';
+import { useAppSelector, useAppDispatch } from '@/app/store';
+import { clearCredentials } from '@/app/store/authSlice';
+import { authApi } from '@/features/auth/auth.api';
 
 interface HeaderProps {
   onOpenMobileSidebar: () => void;
@@ -11,9 +14,27 @@ interface HeaderProps {
 
 export const Header = ({ onOpenMobileSidebar, isProfileOpen, onToggleProfile }: HeaderProps) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((s) => s.auth.user);
+
   const active = MENU_ITEMS.find((m) => location.pathname.startsWith(m.path));
   const title = active?.label ?? 'Dashboard';
   const isDashboard = location.pathname.startsWith('/dashboard');
+
+  const name = user?.name ?? CURRENT_USER.name;
+  const role = user?.role?.name ?? CURRENT_USER.role;
+  const initials = name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
+
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+    } catch {
+      /* abaikan error logout; tetap bersihkan sesi lokal */
+    }
+    dispatch(clearCredentials());
+    navigate({ to: '/login' });
+  };
 
   return (
     <header className="px-4 md:px-6 lg:px-8 h-[72px] flex items-center justify-between gap-4 shrink-0 bg-surface border-b border-border z-30">
@@ -29,7 +50,7 @@ export const Header = ({ onOpenMobileSidebar, isProfileOpen, onToggleProfile }: 
           <h1 className="text-lg md:text-xl font-extrabold text-ink tracking-tight leading-none truncate">{title}</h1>
           {isDashboard && (
             <p className="text-[11px] md:text-xs text-muted font-medium mt-1 truncate">
-              Selamat datang kembali, <span className="text-primary font-bold">{CURRENT_USER.name}</span>
+              Selamat datang kembali, <span className="text-primary font-bold">{name}</span>
             </p>
           )}
         </div>
@@ -65,10 +86,10 @@ export const Header = ({ onOpenMobileSidebar, isProfileOpen, onToggleProfile }: 
             onClick={onToggleProfile}
             className="flex items-center gap-2.5 pl-1.5 pr-2 md:pr-3 py-1.5 rounded-full bg-surface-soft border border-border hover:border-primary transition-colors"
           >
-            <img src={CURRENT_USER.avatar} alt="" className="w-8 h-8 rounded-full object-cover bg-primary-light" />
+            <span className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-[12px] font-extrabold shrink-0">{initials}</span>
             <div className="hidden md:flex flex-col items-start leading-none">
-              <span className="text-[12px] font-bold text-ink">{CURRENT_USER.name}</span>
-              <span className="text-[10px] text-muted font-medium mt-0.5">{CURRENT_USER.role}</span>
+              <span className="text-[12px] font-bold text-ink">{name}</span>
+              <span className="text-[10px] text-muted font-medium mt-0.5">{role}</span>
             </div>
             <ChevronDown size={16} className="text-muted hidden md:block" />
           </button>
@@ -76,14 +97,19 @@ export const Header = ({ onOpenMobileSidebar, isProfileOpen, onToggleProfile }: 
           {isProfileOpen && (
             <div className="absolute right-0 mt-3 w-56 bg-surface border border-border rounded-2xl shadow-card-hover z-50 overflow-hidden animate-float-up">
               <div className="p-4 border-b border-divider flex items-center gap-3 bg-surface-soft">
-                <img src={CURRENT_USER.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
-                <div>
-                  <p className="text-sm font-bold text-ink leading-tight">{CURRENT_USER.name}</p>
-                  <p className="text-[10px] text-muted font-semibold uppercase tracking-wider mt-0.5">{CURRENT_USER.role}</p>
+                <span className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center text-sm font-extrabold shrink-0">{initials}</span>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-ink leading-tight truncate">{name}</p>
+                  <p className="text-[10px] text-muted font-semibold uppercase tracking-wider mt-0.5 truncate">{role}</p>
                 </div>
               </div>
               <div className="p-2">
-                <p className="px-3 py-2 text-[11px] text-muted">Login di-skip (mode demo)</p>
+                <Link to="/pengaturan" onClick={onToggleProfile} className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-ink-soft hover:bg-surface-soft transition-colors">
+                  Pengaturan
+                </Link>
+                <button onClick={handleLogout} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-semantic-error hover:bg-semantic-error/10 transition-colors">
+                  <LogOut size={16} /> Keluar
+                </button>
               </div>
             </div>
           )}

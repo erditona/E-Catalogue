@@ -4,7 +4,7 @@ interface LogoProps {
   compact?: boolean;
 }
 
-/** Logo Cars Showroom — mark mobil candy-orange + wordmark. */
+/** Logo GM Mobilindo — mark mobil candy-orange + wordmark. */
 export const Logo = ({ compact = false }: LogoProps) => {
   return (
     <div className="flex items-center gap-3 overflow-hidden">
@@ -17,7 +17,7 @@ export const Logo = ({ compact = false }: LogoProps) => {
       </div>
       {!compact && (
         <div className="flex flex-col leading-none whitespace-nowrap">
-          <span className="font-extrabold text-[15px] text-ink tracking-tight">CARS SHOWROOM</span>
+          <span className="font-extrabold text-[15px] text-ink tracking-tight">GM MOBILINDO</span>
           <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-primary mt-1">
             Used Car Specialist
           </span>

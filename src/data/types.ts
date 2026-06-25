@@ -1,4 +1,4 @@
-// Tipe data domain showroom mobil bekas Cars Showroom.
+// Tipe data domain showroom mobil bekas GM Mobilindo.
 
 export type UnitStatus = 'ready' | 'rekondisi' | 'booked' | 'sold' | 'pembelian';
 export type FuelType = 'Bensin' | 'Diesel' | 'Hybrid' | 'Listrik';

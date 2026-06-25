@@ -6,7 +6,7 @@ import { WHATSAPP_URL } from './publicNav';
 const INFO = [
   { icon: MapPin, title: 'Alamat', value: 'Jl. Raya Otomotif No. 88, Jakarta Selatan' },
   { icon: Phone, title: 'Telepon', value: '021-1500-888' },
-  { icon: Mail, title: 'Email', value: 'halo@carsshowroom.id' },
+  { icon: Mail, title: 'Email', value: 'halo@gmmobilindo.id' },
   { icon: Clock, title: 'Jam Buka', value: 'Senin–Sabtu, 09.00–18.00 WIB' },
 ];
 
@@ -46,7 +46,7 @@ export const KontakPage = () => {
           </a>
           <div className="rounded-2xl overflow-hidden border border-border h-64 bg-surface-soft">
             <iframe
-              title="Lokasi Cars Showroom"
+              title="Lokasi GM Mobilindo"
               src="https://www.openstreetmap.org/export/embed.html?bbox=106.78%2C-6.30%2C106.86%2C-6.22&layer=mapnik"
               className="w-full h-full"
               loading="lazy"

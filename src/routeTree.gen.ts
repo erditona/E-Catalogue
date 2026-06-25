@@ -17,6 +17,7 @@ import { Route as PublicTentangRouteImport } from './routes/_public/tentang'
 import { Route as PublicSimulasiRouteImport } from './routes/_public/simulasi'
 import { Route as PublicKontakRouteImport } from './routes/_public/kontak'
 import { Route as PublicKatalogRouteImport } from './routes/_public/katalog'
+import { Route as AdminVendorRouteImport } from './routes/_admin/vendor'
 import { Route as AdminTestDriveRouteImport } from './routes/_admin/test-drive'
 import { Route as AdminRekondisiRouteImport } from './routes/_admin/rekondisi'
 import { Route as AdminReadyStockRouteImport } from './routes/_admin/ready-stock'
@@ -25,12 +26,17 @@ import { Route as AdminPengeluaranRouteImport } from './routes/_admin/pengeluara
 import { Route as AdminPengaturanRouteImport } from './routes/_admin/pengaturan'
 import { Route as AdminPembelianRouteImport } from './routes/_admin/pembelian'
 import { Route as AdminPembayaranRouteImport } from './routes/_admin/pembayaran'
+import { Route as AdminMerekRouteImport } from './routes/_admin/merek'
 import { Route as AdminLaporanRouteImport } from './routes/_admin/laporan'
 import { Route as AdminInventoryRouteImport } from './routes/_admin/inventory'
 import { Route as AdminDashboardRouteImport } from './routes/_admin/dashboard'
 import { Route as AdminCrmRouteImport } from './routes/_admin/crm'
 import { Route as AdminCashflowRouteImport } from './routes/_admin/cashflow'
+import { Route as AdminBranchRouteImport } from './routes/_admin/branch'
 import { Route as PublicKatalogIdRouteImport } from './routes/_public/katalog.$id'
+import { Route as AdminAccessControlUsersRouteImport } from './routes/_admin/access-control.users'
+import { Route as AdminAccessControlRolesRouteImport } from './routes/_admin/access-control.roles'
+import { Route as AdminAccessControlMenusRouteImport } from './routes/_admin/access-control.menus'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -69,6 +75,11 @@ const PublicKatalogRoute = PublicKatalogRouteImport.update({
   id: '/katalog',
   path: '/katalog',
   getParentRoute: () => PublicRoute,
+} as any)
+const AdminVendorRoute = AdminVendorRouteImport.update({
+  id: '/vendor',
+  path: '/vendor',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminTestDriveRoute = AdminTestDriveRouteImport.update({
   id: '/test-drive',
@@ -110,6 +121,11 @@ const AdminPembayaranRoute = AdminPembayaranRouteImport.update({
   path: '/pembayaran',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminMerekRoute = AdminMerekRouteImport.update({
+  id: '/merek',
+  path: '/merek',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminLaporanRoute = AdminLaporanRouteImport.update({
   id: '/laporan',
   path: '/laporan',
@@ -135,20 +151,42 @@ const AdminCashflowRoute = AdminCashflowRouteImport.update({
   path: '/cashflow',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminBranchRoute = AdminBranchRouteImport.update({
+  id: '/branch',
+  path: '/branch',
+  getParentRoute: () => AdminRoute,
+} as any)
 const PublicKatalogIdRoute = PublicKatalogIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => PublicKatalogRoute,
 } as any)
+const AdminAccessControlUsersRoute = AdminAccessControlUsersRouteImport.update({
+  id: '/access-control/users',
+  path: '/access-control/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAccessControlRolesRoute = AdminAccessControlRolesRouteImport.update({
+  id: '/access-control/roles',
+  path: '/access-control/roles',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAccessControlMenusRoute = AdminAccessControlMenusRouteImport.update({
+  id: '/access-control/menus',
+  path: '/access-control/menus',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/login': typeof LoginRoute
+  '/branch': typeof AdminBranchRoute
   '/cashflow': typeof AdminCashflowRoute
   '/crm': typeof AdminCrmRoute
   '/dashboard': typeof AdminDashboardRoute
   '/inventory': typeof AdminInventoryRoute
   '/laporan': typeof AdminLaporanRoute
+  '/merek': typeof AdminMerekRoute
   '/pembayaran': typeof AdminPembayaranRoute
   '/pembelian': typeof AdminPembelianRoute
   '/pengaturan': typeof AdminPengaturanRoute
@@ -157,20 +195,26 @@ export interface FileRoutesByFullPath {
   '/ready-stock': typeof AdminReadyStockRoute
   '/rekondisi': typeof AdminRekondisiRoute
   '/test-drive': typeof AdminTestDriveRoute
+  '/vendor': typeof AdminVendorRoute
   '/katalog': typeof PublicKatalogRouteWithChildren
   '/kontak': typeof PublicKontakRoute
   '/simulasi': typeof PublicSimulasiRoute
   '/tentang': typeof PublicTentangRoute
+  '/access-control/menus': typeof AdminAccessControlMenusRoute
+  '/access-control/roles': typeof AdminAccessControlRolesRoute
+  '/access-control/users': typeof AdminAccessControlUsersRoute
   '/katalog/$id': typeof PublicKatalogIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/login': typeof LoginRoute
+  '/branch': typeof AdminBranchRoute
   '/cashflow': typeof AdminCashflowRoute
   '/crm': typeof AdminCrmRoute
   '/dashboard': typeof AdminDashboardRoute
   '/inventory': typeof AdminInventoryRoute
   '/laporan': typeof AdminLaporanRoute
+  '/merek': typeof AdminMerekRoute
   '/pembayaran': typeof AdminPembayaranRoute
   '/pembelian': typeof AdminPembelianRoute
   '/pengaturan': typeof AdminPengaturanRoute
@@ -179,10 +223,14 @@ export interface FileRoutesByTo {
   '/ready-stock': typeof AdminReadyStockRoute
   '/rekondisi': typeof AdminRekondisiRoute
   '/test-drive': typeof AdminTestDriveRoute
+  '/vendor': typeof AdminVendorRoute
   '/katalog': typeof PublicKatalogRouteWithChildren
   '/kontak': typeof PublicKontakRoute
   '/simulasi': typeof PublicSimulasiRoute
   '/tentang': typeof PublicTentangRoute
+  '/access-control/menus': typeof AdminAccessControlMenusRoute
+  '/access-control/roles': typeof AdminAccessControlRolesRoute
+  '/access-control/users': typeof AdminAccessControlUsersRoute
   '/katalog/$id': typeof PublicKatalogIdRoute
 }
 export interface FileRoutesById {
@@ -190,11 +238,13 @@ export interface FileRoutesById {
   '/_admin': typeof AdminRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
   '/login': typeof LoginRoute
+  '/_admin/branch': typeof AdminBranchRoute
   '/_admin/cashflow': typeof AdminCashflowRoute
   '/_admin/crm': typeof AdminCrmRoute
   '/_admin/dashboard': typeof AdminDashboardRoute
   '/_admin/inventory': typeof AdminInventoryRoute
   '/_admin/laporan': typeof AdminLaporanRoute
+  '/_admin/merek': typeof AdminMerekRoute
   '/_admin/pembayaran': typeof AdminPembayaranRoute
   '/_admin/pembelian': typeof AdminPembelianRoute
   '/_admin/pengaturan': typeof AdminPengaturanRoute
@@ -203,11 +253,15 @@ export interface FileRoutesById {
   '/_admin/ready-stock': typeof AdminReadyStockRoute
   '/_admin/rekondisi': typeof AdminRekondisiRoute
   '/_admin/test-drive': typeof AdminTestDriveRoute
+  '/_admin/vendor': typeof AdminVendorRoute
   '/_public/katalog': typeof PublicKatalogRouteWithChildren
   '/_public/kontak': typeof PublicKontakRoute
   '/_public/simulasi': typeof PublicSimulasiRoute
   '/_public/tentang': typeof PublicTentangRoute
   '/_public/': typeof PublicIndexRoute
+  '/_admin/access-control/menus': typeof AdminAccessControlMenusRoute
+  '/_admin/access-control/roles': typeof AdminAccessControlRolesRoute
+  '/_admin/access-control/users': typeof AdminAccessControlUsersRoute
   '/_public/katalog/$id': typeof PublicKatalogIdRoute
 }
 export interface FileRouteTypes {
@@ -215,11 +269,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/branch'
     | '/cashflow'
     | '/crm'
     | '/dashboard'
     | '/inventory'
     | '/laporan'
+    | '/merek'
     | '/pembayaran'
     | '/pembelian'
     | '/pengaturan'
@@ -228,20 +284,26 @@ export interface FileRouteTypes {
     | '/ready-stock'
     | '/rekondisi'
     | '/test-drive'
+    | '/vendor'
     | '/katalog'
     | '/kontak'
     | '/simulasi'
     | '/tentang'
+    | '/access-control/menus'
+    | '/access-control/roles'
+    | '/access-control/users'
     | '/katalog/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
+    | '/branch'
     | '/cashflow'
     | '/crm'
     | '/dashboard'
     | '/inventory'
     | '/laporan'
+    | '/merek'
     | '/pembayaran'
     | '/pembelian'
     | '/pengaturan'
@@ -250,21 +312,27 @@ export interface FileRouteTypes {
     | '/ready-stock'
     | '/rekondisi'
     | '/test-drive'
+    | '/vendor'
     | '/katalog'
     | '/kontak'
     | '/simulasi'
     | '/tentang'
+    | '/access-control/menus'
+    | '/access-control/roles'
+    | '/access-control/users'
     | '/katalog/$id'
   id:
     | '__root__'
     | '/_admin'
     | '/_public'
     | '/login'
+    | '/_admin/branch'
     | '/_admin/cashflow'
     | '/_admin/crm'
     | '/_admin/dashboard'
     | '/_admin/inventory'
     | '/_admin/laporan'
+    | '/_admin/merek'
     | '/_admin/pembayaran'
     | '/_admin/pembelian'
     | '/_admin/pengaturan'
@@ -273,11 +341,15 @@ export interface FileRouteTypes {
     | '/_admin/ready-stock'
     | '/_admin/rekondisi'
     | '/_admin/test-drive'
+    | '/_admin/vendor'
     | '/_public/katalog'
     | '/_public/kontak'
     | '/_public/simulasi'
     | '/_public/tentang'
     | '/_public/'
+    | '/_admin/access-control/menus'
+    | '/_admin/access-control/roles'
+    | '/_admin/access-control/users'
     | '/_public/katalog/$id'
   fileRoutesById: FileRoutesById
 }
@@ -345,6 +417,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicKatalogRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_admin/vendor': {
+      id: '/_admin/vendor'
+      path: '/vendor'
+      fullPath: '/vendor'
+      preLoaderRoute: typeof AdminVendorRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/test-drive': {
       id: '/_admin/test-drive'
       path: '/test-drive'
@@ -401,6 +480,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPembayaranRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/merek': {
+      id: '/_admin/merek'
+      path: '/merek'
+      fullPath: '/merek'
+      preLoaderRoute: typeof AdminMerekRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/laporan': {
       id: '/_admin/laporan'
       path: '/laporan'
@@ -436,6 +522,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCashflowRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/branch': {
+      id: '/_admin/branch'
+      path: '/branch'
+      fullPath: '/branch'
+      preLoaderRoute: typeof AdminBranchRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_public/katalog/$id': {
       id: '/_public/katalog/$id'
       path: '/$id'
@@ -443,15 +536,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicKatalogIdRouteImport
       parentRoute: typeof PublicKatalogRoute
     }
+    '/_admin/access-control/users': {
+      id: '/_admin/access-control/users'
+      path: '/access-control/users'
+      fullPath: '/access-control/users'
+      preLoaderRoute: typeof AdminAccessControlUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/access-control/roles': {
+      id: '/_admin/access-control/roles'
+      path: '/access-control/roles'
+      fullPath: '/access-control/roles'
+      preLoaderRoute: typeof AdminAccessControlRolesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/access-control/menus': {
+      id: '/_admin/access-control/menus'
+      path: '/access-control/menus'
+      fullPath: '/access-control/menus'
+      preLoaderRoute: typeof AdminAccessControlMenusRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminBranchRoute: typeof AdminBranchRoute
   AdminCashflowRoute: typeof AdminCashflowRoute
   AdminCrmRoute: typeof AdminCrmRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminInventoryRoute: typeof AdminInventoryRoute
   AdminLaporanRoute: typeof AdminLaporanRoute
+  AdminMerekRoute: typeof AdminMerekRoute
   AdminPembayaranRoute: typeof AdminPembayaranRoute
   AdminPembelianRoute: typeof AdminPembelianRoute
   AdminPengaturanRoute: typeof AdminPengaturanRoute
@@ -460,14 +576,20 @@ interface AdminRouteChildren {
   AdminReadyStockRoute: typeof AdminReadyStockRoute
   AdminRekondisiRoute: typeof AdminRekondisiRoute
   AdminTestDriveRoute: typeof AdminTestDriveRoute
+  AdminVendorRoute: typeof AdminVendorRoute
+  AdminAccessControlMenusRoute: typeof AdminAccessControlMenusRoute
+  AdminAccessControlRolesRoute: typeof AdminAccessControlRolesRoute
+  AdminAccessControlUsersRoute: typeof AdminAccessControlUsersRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminBranchRoute: AdminBranchRoute,
   AdminCashflowRoute: AdminCashflowRoute,
   AdminCrmRoute: AdminCrmRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminInventoryRoute: AdminInventoryRoute,
   AdminLaporanRoute: AdminLaporanRoute,
+  AdminMerekRoute: AdminMerekRoute,
   AdminPembayaranRoute: AdminPembayaranRoute,
   AdminPembelianRoute: AdminPembelianRoute,
   AdminPengaturanRoute: AdminPengaturanRoute,
@@ -476,6 +598,10 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminReadyStockRoute: AdminReadyStockRoute,
   AdminRekondisiRoute: AdminRekondisiRoute,
   AdminTestDriveRoute: AdminTestDriveRoute,
+  AdminVendorRoute: AdminVendorRoute,
+  AdminAccessControlMenusRoute: AdminAccessControlMenusRoute,
+  AdminAccessControlRolesRoute: AdminAccessControlRolesRoute,
+  AdminAccessControlUsersRoute: AdminAccessControlUsersRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)

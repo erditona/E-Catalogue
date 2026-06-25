@@ -110,7 +110,7 @@ export const LandingPage = () => {
       <section className="bg-surface border-y border-border">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-14 md:py-20">
           <div className="text-center max-w-xl mx-auto mb-10">
-            <p className="text-primary font-bold text-[13px] uppercase tracking-wide">Kenapa Cars Showroom</p>
+            <p className="text-primary font-bold text-[13px] uppercase tracking-wide">Kenapa GM Mobilindo</p>
             <h2 className="text-2xl md:text-3xl font-extrabold text-ink mt-2">Beli Mobil Bekas Jadi Tenang</h2>
             <p className="text-muted font-medium mt-2">Kami menghilangkan keraguan terbesar saat membeli mobil bekas.</p>
           </div>

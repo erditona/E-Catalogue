@@ -9,7 +9,7 @@ const NavLogo = () => (
       <Car size={22} className="text-white" strokeWidth={2.4} />
     </div>
     <div className="leading-none">
-      <p className="font-extrabold text-ink text-[15px] tracking-tight">CARS SHOWROOM</p>
+      <p className="font-extrabold text-ink text-[15px] tracking-tight">GM MOBILINDO</p>
       <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-primary mt-1">Used Car Specialist</p>
     </div>
   </Link>
@@ -81,7 +81,7 @@ export const PublicLayout = ({ children }: { children: ReactNode }) => {
                 <Car size={22} className="text-white" strokeWidth={2.4} />
               </div>
               <div className="leading-none">
-                <p className="font-extrabold text-white text-[15px]">CARS SHOWROOM</p>
+                <p className="font-extrabold text-white text-[15px]">GM MOBILINDO</p>
                 <p className="text-[10px] uppercase tracking-[0.18em] text-primary font-bold mt-1">Used Car Specialist</p>
               </div>
             </div>
@@ -104,12 +104,12 @@ export const PublicLayout = ({ children }: { children: ReactNode }) => {
             <ul className="space-y-2.5 text-[13px] font-medium">
               <li className="flex items-start gap-2.5"><MapPin size={16} className="text-primary shrink-0 mt-0.5" /> Jl. Raya Otomotif No. 88, Jakarta</li>
               <li className="flex items-center gap-2.5"><Phone size={16} className="text-primary" /> 021-1500-888</li>
-              <li className="flex items-center gap-2.5"><Mail size={16} className="text-primary" /> halo@carsshowroom.id</li>
+              <li className="flex items-center gap-2.5"><Mail size={16} className="text-primary" /> halo@gmmobilindo.id</li>
             </ul>
           </div>
         </div>
         <div className="border-t border-white/10 py-5 text-center text-[12px] font-medium">
-          © {new Date().getFullYear()} Cars Showroom. Semua hak dilindungi.
+          © {new Date().getFullYear()} GM Mobilindo. Semua hak dilindungi.
         </div>
       </footer>
     </div>

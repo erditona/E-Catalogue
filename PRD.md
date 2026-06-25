@@ -1,4 +1,4 @@
-# PRD — Cars Showroom (GM Mobilindo) Management System
+# PRD — GM Mobilindo (GM Mobilindo) Management System
 
 > Product Requirements Document turunan dari [`SRS_GM_Mobilindo.md`](SRS_GM_Mobilindo.md).
 > Dokumen ini memecah SRS menjadi requirement + **task list** dengan status pengerjaan, sehingga jelas apa yang **sudah**, **sebagian**, dan **belum** dikerjakan.
@@ -52,11 +52,14 @@ Sesuai SRS — **belum diberlakukan** (saat ini single-user full akses). Menjadi
 | Cash Flow | ✅ | ✅ | — | ⬜ |
 | Laporan | ✅ | ✅ | — | ⬜ |
 
-**Task RBAC:**
-- [ ] ⬜ Model user + role (Owner/Admin/Sales)
-- [ ] ⬜ Guard route per role di layout `_admin`
-- [ ] ⬜ Sembunyikan menu sidebar sesuai role
-- [ ] ⬜ Auth nyata (email + password) menggantikan login demo
+**Task RBAC / Auth:**
+- [x] ✅ **Auth nyata** (login `identifier`+password) terhubung ke backend `/api/v1/auth/*`
+- [x] ✅ Token (access + refresh) + **auto-refresh on 401** (rotation) via interceptor Axios
+- [x] ✅ Hidrasi sesi `/auth/me` saat load + **logout** (cabut session) + **guard** route `_admin`
+- [ ] 🟡 RBAC: `permissionCodes` & `groupMenus` sudah diterima dari API — belum dipakai untuk filter menu/aksi
+- [ ] ⬜ Guard per-permission tiap route/aksi (CREATE/UPDATE/DELETE)
+- [ ] ⬜ Sembunyikan menu sidebar sesuai `groupMenus`/permission
+- [ ] ⬜ Halaman manajemen Role / User / Menu (endpoint tersedia di backend)
 
 ---
 
@@ -237,11 +240,32 @@ Status alur: rangkaian menu & data sudah tersambung secara dummy; perhitungan HP
 
 ---
 
+## 14b. Module: Master Data ✅ (terintegrasi API)
+
+Endpoint master data sudah tersedia di backend & **terhubung nyata** (React Query, pola 1 pintu).
+
+**Merek & Tipe** (`/api/v1/mereks`, `/api/v1/mereks/:id/tipes`)
+- [x] ✅ List merek (paginated + search) + CRUD
+- [x] ✅ Kelola **Tipe** (nested per merek) — list + CRUD via modal
+
+**Vendor** (`/api/v1/vendors`)
+- [x] ✅ List (paginated + search) + CRUD (nama, alamat, telepon, status)
+
+**Cabang / Branch + Media** (`/api/v1/branches`, `/branches/:id/images`, `/m/:id`)
+- [x] ✅ List (paginated + search) + CRUD (nama, code, lokasi, longlat, kontak)
+- [x] ✅ **Galeri foto**: upload (multipart) & hapus, preview via media publik `/m/:id`
+- [ ] 🟡 Pilih PIC cabang (perlu integrasi list user)
+
+**Belum:**
+- [ ] ⬜ Hubungkan Merek/Tipe & Vendor ke form Inventory & Rekondisi (gantikan input teks)
+
+---
+
 ## 15. Cross-cutting
 
 - [ ] ⬜ **Audit Log** (siapa, sebelum, sesudah, waktu) untuk setiap perubahan data
-- [ ] ⬜ Autentikasi + RBAC (lihat §2)
-- [ ] ⬜ Integrasi API menggantikan data dummy
+- [x] ✅ **Autentikasi** terintegrasi API (lihat §2); 🟡 RBAC enforcement belum
+- [ ] 🟡 Integrasi API — **auth + master data (merek/tipe/vendor/cabang) sudah**; modul bisnis (unit/lead/sales/dll) masih dummy (menunggu endpoint)
 - [ ] ⬜ Upload file (KTP, SIM, invoice, BPKB)
 - [ ] ⬜ Validasi form menyeluruh (Zod)
 
@@ -301,11 +325,13 @@ Status alur: rangkaian menu & data sudah tersambung secara dummy; perhitungan HP
 | Pembayaran | 🟡 |
 | Pengeluaran | ✅ |
 | Cash Flow | ✅ |
+| Master Data (Merek/Tipe/Vendor/Cabang) — API | ✅ |
 | Dashboard | 🟡 |
 | Laporan | 🟡 |
 | Situs Publik (E-Catalogue) | ✅ |
-| RBAC / Auth | ⬜ |
+| Autentikasi (login/refresh/logout/guard) | ✅ |
+| RBAC enforcement (permission/menu) | 🟡 |
 | Audit Log | ⬜ |
-| Integrasi API | ⬜ |
+| Integrasi API modul bisnis | ⬜ |
 
 *PRD ini hidup — perbarui status checkbox setiap menyelesaikan task.*

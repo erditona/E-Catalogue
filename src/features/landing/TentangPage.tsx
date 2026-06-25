@@ -26,7 +26,7 @@ export const TentangPage = () => (
             Partner Terpercaya untuk Mobil Bekas Anda
           </h1>
           <p className="text-muted font-medium mt-4 leading-relaxed max-w-md">
-            Cars Showroom hadir untuk menghapus keraguan dalam membeli mobil bekas. Kami percaya setiap orang
+            GM Mobilindo hadir untuk menghapus keraguan dalam membeli mobil bekas. Kami percaya setiap orang
             berhak mendapatkan mobil berkualitas dengan harga jujur dan pelayanan yang tulus.
           </p>
           <Link to="/katalog" className="inline-flex items-center gap-2 mt-6 rounded-xl bg-primary text-white font-bold text-[14px] px-5 py-3 shadow-glow hover:bg-primary-dark transition-colors">

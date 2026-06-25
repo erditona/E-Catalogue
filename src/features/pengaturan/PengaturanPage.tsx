@@ -51,7 +51,7 @@ export const PengaturanPage = () => {
           </div>
           <div className="space-y-4">
             <Field label="Nama Lengkap" value={CURRENT_USER.name} />
-            <Field label="Email" value="admin@carsshowroom.id" />
+            <Field label="Email" value="admin@gmmobilindo.id" />
           </div>
         </SectionCard>
 

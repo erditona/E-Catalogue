@@ -12,6 +12,8 @@ import {
   ArrowLeftRight,
   BarChart3,
   Settings,
+  Tag,
+  Building2,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -19,7 +21,7 @@ export interface MenuItem {
   path: string;
   label: string;
   icon: LucideIcon;
-  group: 'main' | 'operasional' | 'lainnya';
+  group: 'main' | 'operasional' | 'master' | 'lainnya';
 }
 
 export const MENU_ITEMS: MenuItem[] = [
@@ -33,6 +35,9 @@ export const MENU_ITEMS: MenuItem[] = [
   { path: '/penjualan', label: 'Penjualan', icon: ReceiptText, group: 'operasional' },
   { path: '/pembayaran', label: 'Pembayaran', icon: Wallet, group: 'operasional' },
   { path: '/pengeluaran', label: 'Pengeluaran', icon: TrendingDown, group: 'operasional' },
+  { path: '/merek', label: 'Merek & Tipe', icon: Tag, group: 'master' },
+  { path: '/vendor', label: 'Vendor', icon: Wrench, group: 'master' },
+  { path: '/branch', label: 'Cabang', icon: Building2, group: 'master' },
   { path: '/cashflow', label: 'Cash Flow', icon: ArrowLeftRight, group: 'lainnya' },
   { path: '/laporan', label: 'Laporan', icon: BarChart3, group: 'lainnya' },
   { path: '/pengaturan', label: 'Pengaturan', icon: Settings, group: 'lainnya' },

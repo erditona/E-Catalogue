@@ -1,11 +1,13 @@
-# 🚗 Cars Showroom — E-Catalogue
+# 🚗 GM Mobilindo — E-Catalogue
 
 Aplikasi **E-Catalogue showroom mobil bekas** dengan dua sisi dalam satu aplikasi:
 
 - **Situs Publik (Customer)** — landing/marketing, katalog dengan filter, detail mobil (galeri + spesifikasi), simulasi kredit, tentang, dan kontak.
 - **Panel Admin (Internal)** — dashboard operasional + modul CRUD (inventory, pembelian, rekondisi, ready stock, CRM/lead, test drive, penjualan, pembayaran, laporan, pengaturan).
 
-> Status saat ini: **mode demo**. Integrasi API belum ada — semua data masih **dummy** (di-seed ke Redux store). Login juga di-skip: halaman `/login` cukup klik tombol **Login** untuk masuk dashboard.
+> Status saat ini: **integrasi API bertahap**.
+> - ✅ **Autentikasi** (login/refresh/logout/guard) & **Master Data** (Merek, Tipe, Vendor, Cabang+galeri) sudah terhubung backend nyata.
+> - 🟡 Modul bisnis (unit, lead, sales, pembayaran, dll.) masih **dummy** (Redux store) sampai endpoint-nya tersedia.
 
 ## 🚀 Tech Stack
 
@@ -30,9 +32,22 @@ Routing dibagi tiga grup (lihat [`src/routes/`](src/routes/)):
 | -------------- | --------------------- | --------------------------------------------------------------------------------------------- |
 | **Publik**     | `_public` (navbar + footer) | `/` (beranda), `/katalog`, `/katalog/$id` (detail), `/simulasi`, `/tentang`, `/kontak` |
 | **Login**      | standalone            | `/login`                                                                                       |
-| **Admin**      | `_admin` (sidebar + header) | `/dashboard`, `/inventory`, `/pembelian`, `/rekondisi`, `/ready-stock`, `/crm`, `/test-drive`, `/penjualan`, `/pembayaran`, `/laporan`, `/pengaturan` |
+| **Admin**      | `_admin` (sidebar + header) | `/dashboard`, `/inventory`, `/pembelian`, `/rekondisi`, `/ready-stock`, `/crm`, `/test-drive`, `/penjualan`, `/pembayaran`, `/pengeluaran`, `/merek`, `/vendor`, `/branch`, `/cashflow`, `/laporan`, `/pengaturan` |
+
+> Admin terlindungi: tanpa token akan diarahkan ke `/login`.
 
 `_public` & `_admin` adalah **pathless layout route** — URL tidak mengandung prefix-nya. `routeTree.gen.ts` di-generate otomatis oleh plugin TanStack Router.
+
+## 🔌 Integrasi API
+
+- **Base URL** dari env `VITE_API_BASE_URL` (lihat `.env.example`). Fleksibel: boleh menyertakan `/api/v1` atau tidak — [`client.ts`](src/core/api/client.ts) menormalkannya.
+- **Satu pintu (interceptor)** di [`core/api/interceptor.ts`](src/core/api/interceptor.ts):
+  - Request → lampirkan `Authorization: Bearer <accessToken>`.
+  - Response 401 (endpoint terproteksi) → **auto-refresh token** (rotation + antrean request); gagal → clear sesi + redirect `/login`.
+  - Error infrastruktur (network/timeout/5xx/parsing) → **GlobalErrorModal**; error bisnis 4xx diteruskan ke pemanggil.
+- **Auth**: `features/auth/` (login, `/auth/me` hydrate, logout) + `authSlice` (user, permissionCodes, groupMenus).
+- **Master Data**: `features/master/` — service + React Query hooks (TanStack Query) untuk Merek/Tipe/Vendor/Cabang + upload media.
+- Helper `notifyApiError` menampilkan error bisnis mutation lewat modal global yang sama (tetap 1 pintu).
 
 ## 📂 Struktur Folder
 
@@ -87,7 +102,7 @@ src/
 │   │   ├── Button.tsx Field.tsx  Tooltip.tsx
 │   │   ├── SectionCard.tsx PageHeader.tsx DataTable.tsx RowActions.tsx
 │   │   ├── StatusBadge.tsx UnitCard.tsx
-│   ├── constants/index.ts        # Identitas app (Cars Showroom) + user demo
+│   ├── constants/index.ts        # Identitas app (GM Mobilindo) + user demo
 │   └── layout/                   # Shell admin (Sidebar, Header, MainLayout, Logo, QuickInput, menu)
 │
 ├── routes/                       # File-based routing (_public, _admin, login)
