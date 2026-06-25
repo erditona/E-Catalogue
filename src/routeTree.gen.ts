@@ -21,6 +21,7 @@ import { Route as AdminTestDriveRouteImport } from './routes/_admin/test-drive'
 import { Route as AdminRekondisiRouteImport } from './routes/_admin/rekondisi'
 import { Route as AdminReadyStockRouteImport } from './routes/_admin/ready-stock'
 import { Route as AdminPenjualanRouteImport } from './routes/_admin/penjualan'
+import { Route as AdminPengeluaranRouteImport } from './routes/_admin/pengeluaran'
 import { Route as AdminPengaturanRouteImport } from './routes/_admin/pengaturan'
 import { Route as AdminPembelianRouteImport } from './routes/_admin/pembelian'
 import { Route as AdminPembayaranRouteImport } from './routes/_admin/pembayaran'
@@ -28,6 +29,7 @@ import { Route as AdminLaporanRouteImport } from './routes/_admin/laporan'
 import { Route as AdminInventoryRouteImport } from './routes/_admin/inventory'
 import { Route as AdminDashboardRouteImport } from './routes/_admin/dashboard'
 import { Route as AdminCrmRouteImport } from './routes/_admin/crm'
+import { Route as AdminCashflowRouteImport } from './routes/_admin/cashflow'
 import { Route as PublicKatalogIdRouteImport } from './routes/_public/katalog.$id'
 
 const LoginRoute = LoginRouteImport.update({
@@ -88,6 +90,11 @@ const AdminPenjualanRoute = AdminPenjualanRouteImport.update({
   path: '/penjualan',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPengeluaranRoute = AdminPengeluaranRouteImport.update({
+  id: '/pengeluaran',
+  path: '/pengeluaran',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPengaturanRoute = AdminPengaturanRouteImport.update({
   id: '/pengaturan',
   path: '/pengaturan',
@@ -123,6 +130,11 @@ const AdminCrmRoute = AdminCrmRouteImport.update({
   path: '/crm',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCashflowRoute = AdminCashflowRouteImport.update({
+  id: '/cashflow',
+  path: '/cashflow',
+  getParentRoute: () => AdminRoute,
+} as any)
 const PublicKatalogIdRoute = PublicKatalogIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -132,6 +144,7 @@ const PublicKatalogIdRoute = PublicKatalogIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/login': typeof LoginRoute
+  '/cashflow': typeof AdminCashflowRoute
   '/crm': typeof AdminCrmRoute
   '/dashboard': typeof AdminDashboardRoute
   '/inventory': typeof AdminInventoryRoute
@@ -139,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/pembayaran': typeof AdminPembayaranRoute
   '/pembelian': typeof AdminPembelianRoute
   '/pengaturan': typeof AdminPengaturanRoute
+  '/pengeluaran': typeof AdminPengeluaranRoute
   '/penjualan': typeof AdminPenjualanRoute
   '/ready-stock': typeof AdminReadyStockRoute
   '/rekondisi': typeof AdminRekondisiRoute
@@ -152,6 +166,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/login': typeof LoginRoute
+  '/cashflow': typeof AdminCashflowRoute
   '/crm': typeof AdminCrmRoute
   '/dashboard': typeof AdminDashboardRoute
   '/inventory': typeof AdminInventoryRoute
@@ -159,6 +174,7 @@ export interface FileRoutesByTo {
   '/pembayaran': typeof AdminPembayaranRoute
   '/pembelian': typeof AdminPembelianRoute
   '/pengaturan': typeof AdminPengaturanRoute
+  '/pengeluaran': typeof AdminPengeluaranRoute
   '/penjualan': typeof AdminPenjualanRoute
   '/ready-stock': typeof AdminReadyStockRoute
   '/rekondisi': typeof AdminRekondisiRoute
@@ -174,6 +190,7 @@ export interface FileRoutesById {
   '/_admin': typeof AdminRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
   '/login': typeof LoginRoute
+  '/_admin/cashflow': typeof AdminCashflowRoute
   '/_admin/crm': typeof AdminCrmRoute
   '/_admin/dashboard': typeof AdminDashboardRoute
   '/_admin/inventory': typeof AdminInventoryRoute
@@ -181,6 +198,7 @@ export interface FileRoutesById {
   '/_admin/pembayaran': typeof AdminPembayaranRoute
   '/_admin/pembelian': typeof AdminPembelianRoute
   '/_admin/pengaturan': typeof AdminPengaturanRoute
+  '/_admin/pengeluaran': typeof AdminPengeluaranRoute
   '/_admin/penjualan': typeof AdminPenjualanRoute
   '/_admin/ready-stock': typeof AdminReadyStockRoute
   '/_admin/rekondisi': typeof AdminRekondisiRoute
@@ -197,6 +215,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/cashflow'
     | '/crm'
     | '/dashboard'
     | '/inventory'
@@ -204,6 +223,7 @@ export interface FileRouteTypes {
     | '/pembayaran'
     | '/pembelian'
     | '/pengaturan'
+    | '/pengeluaran'
     | '/penjualan'
     | '/ready-stock'
     | '/rekondisi'
@@ -217,6 +237,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/cashflow'
     | '/crm'
     | '/dashboard'
     | '/inventory'
@@ -224,6 +245,7 @@ export interface FileRouteTypes {
     | '/pembayaran'
     | '/pembelian'
     | '/pengaturan'
+    | '/pengeluaran'
     | '/penjualan'
     | '/ready-stock'
     | '/rekondisi'
@@ -238,6 +260,7 @@ export interface FileRouteTypes {
     | '/_admin'
     | '/_public'
     | '/login'
+    | '/_admin/cashflow'
     | '/_admin/crm'
     | '/_admin/dashboard'
     | '/_admin/inventory'
@@ -245,6 +268,7 @@ export interface FileRouteTypes {
     | '/_admin/pembayaran'
     | '/_admin/pembelian'
     | '/_admin/pengaturan'
+    | '/_admin/pengeluaran'
     | '/_admin/penjualan'
     | '/_admin/ready-stock'
     | '/_admin/rekondisi'
@@ -349,6 +373,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPenjualanRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/pengeluaran': {
+      id: '/_admin/pengeluaran'
+      path: '/pengeluaran'
+      fullPath: '/pengeluaran'
+      preLoaderRoute: typeof AdminPengeluaranRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/pengaturan': {
       id: '/_admin/pengaturan'
       path: '/pengaturan'
@@ -398,6 +429,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCrmRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/cashflow': {
+      id: '/_admin/cashflow'
+      path: '/cashflow'
+      fullPath: '/cashflow'
+      preLoaderRoute: typeof AdminCashflowRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_public/katalog/$id': {
       id: '/_public/katalog/$id'
       path: '/$id'
@@ -409,6 +447,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminCashflowRoute: typeof AdminCashflowRoute
   AdminCrmRoute: typeof AdminCrmRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminInventoryRoute: typeof AdminInventoryRoute
@@ -416,6 +455,7 @@ interface AdminRouteChildren {
   AdminPembayaranRoute: typeof AdminPembayaranRoute
   AdminPembelianRoute: typeof AdminPembelianRoute
   AdminPengaturanRoute: typeof AdminPengaturanRoute
+  AdminPengeluaranRoute: typeof AdminPengeluaranRoute
   AdminPenjualanRoute: typeof AdminPenjualanRoute
   AdminReadyStockRoute: typeof AdminReadyStockRoute
   AdminRekondisiRoute: typeof AdminRekondisiRoute
@@ -423,6 +463,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCashflowRoute: AdminCashflowRoute,
   AdminCrmRoute: AdminCrmRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminInventoryRoute: AdminInventoryRoute,
@@ -430,6 +471,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminPembayaranRoute: AdminPembayaranRoute,
   AdminPembelianRoute: AdminPembelianRoute,
   AdminPengaturanRoute: AdminPengaturanRoute,
+  AdminPengeluaranRoute: AdminPengeluaranRoute,
   AdminPenjualanRoute: AdminPenjualanRoute,
   AdminReadyStockRoute: AdminReadyStockRoute,
   AdminRekondisiRoute: AdminRekondisiRoute,

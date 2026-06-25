@@ -8,6 +8,8 @@ import {
   KeyRound,
   ReceiptText,
   Wallet,
+  TrendingDown,
+  ArrowLeftRight,
   BarChart3,
   Settings,
   type LucideIcon,
@@ -30,6 +32,8 @@ export const MENU_ITEMS: MenuItem[] = [
   { path: '/test-drive', label: 'Test Drive', icon: KeyRound, group: 'operasional' },
   { path: '/penjualan', label: 'Penjualan', icon: ReceiptText, group: 'operasional' },
   { path: '/pembayaran', label: 'Pembayaran', icon: Wallet, group: 'operasional' },
+  { path: '/pengeluaran', label: 'Pengeluaran', icon: TrendingDown, group: 'operasional' },
+  { path: '/cashflow', label: 'Cash Flow', icon: ArrowLeftRight, group: 'lainnya' },
   { path: '/laporan', label: 'Laporan', icon: BarChart3, group: 'lainnya' },
   { path: '/pengaturan', label: 'Pengaturan', icon: Settings, group: 'lainnya' },
 ];
