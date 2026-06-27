@@ -34,6 +34,8 @@
 - [x] Merek + Tipe (nested) CRUD + paginated/search
 - [x] Vendor CRUD
 - [x] Cabang CRUD + galeri foto (upload/hapus, media `/m/:id`)
+- [x] Akses Control: Role, User, Menu/Group/Permission (CRUD + set permission/role/branch)
+- [x] Master sederhana via komponen generik `SimpleMasterPage`: **Leasing, Sumber Lead, Pengecekan, Kategori Pengeluaran, Metode Pembayaran, Dokumen, Perlengkapan**
 
 ### Modul admin (dummy)
 - [x] Dashboard (stat, ready stock, grafik, pipeline, rekondisi, aktivitas)

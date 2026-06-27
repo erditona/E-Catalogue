@@ -256,8 +256,18 @@ Endpoint master data sudah tersedia di backend & **terhubung nyata** (React Quer
 - [x] ✅ **Galeri foto**: upload (multipart) & hapus, preview via media publik `/m/:id`
 - [ ] 🟡 Pilih PIC cabang (perlu integrasi list user)
 
+**Master sederhana (name + code + isActive)** — terhubung API via komponen generik `SimpleMasterPage`:
+- [x] ✅ Leasing (`/api/v1/leasings`)
+- [x] ✅ Sumber Lead (`/api/v1/sumber-leads`)
+- [x] ✅ Pengecekan (`/api/v1/pengecekans`)
+- [x] ✅ Kategori Pengeluaran (`/api/v1/kategori-pengeluarans`)
+- [x] ✅ Metode Pembayaran (`/api/v1/metode-pembayarans`)
+- [x] ✅ Dokumen (`/api/v1/dokumens`)
+- [x] ✅ Perlengkapan (`/api/v1/perlengkapans`)
+
 **Belum:**
-- [ ] ⬜ Hubungkan Merek/Tipe & Vendor ke form Inventory & Rekondisi (gantikan input teks)
+- [ ] ⬜ Hubungkan Merek/Tipe, Vendor, Leasing, Sumber Lead, dll ke form modul transaksi (Inventory/CRM/Rekondisi/Pembayaran)
+- [ ] 🟡 Guard aksi master per-permission begitu kode permission tersedia dari backend
 
 ---
 
@@ -326,6 +336,7 @@ Endpoint master data sudah tersedia di backend & **terhubung nyata** (React Quer
 | Pengeluaran | ✅ |
 | Cash Flow | ✅ |
 | Master Data (Merek/Tipe/Vendor/Cabang) — API | ✅ |
+| Master Data tambahan (Leasing/Sumber Lead/Pengecekan/Kat.Pengeluaran/Metode Bayar/Dokumen/Perlengkapan) — API | ✅ |
 | Dashboard | 🟡 |
 | Laporan | 🟡 |
 | Situs Publik (E-Catalogue) | ✅ |

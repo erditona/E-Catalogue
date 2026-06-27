@@ -34,6 +34,13 @@ import { Route as AdminCrmRouteImport } from './routes/_admin/crm'
 import { Route as AdminCashflowRouteImport } from './routes/_admin/cashflow'
 import { Route as AdminBranchRouteImport } from './routes/_admin/branch'
 import { Route as PublicKatalogIdRouteImport } from './routes/_public/katalog.$id'
+import { Route as AdminMasterSumberLeadRouteImport } from './routes/_admin/master.sumber-lead'
+import { Route as AdminMasterPerlengkapanRouteImport } from './routes/_admin/master.perlengkapan'
+import { Route as AdminMasterPengecekanRouteImport } from './routes/_admin/master.pengecekan'
+import { Route as AdminMasterMetodePembayaranRouteImport } from './routes/_admin/master.metode-pembayaran'
+import { Route as AdminMasterLeasingRouteImport } from './routes/_admin/master.leasing'
+import { Route as AdminMasterKategoriPengeluaranRouteImport } from './routes/_admin/master.kategori-pengeluaran'
+import { Route as AdminMasterDokumenRouteImport } from './routes/_admin/master.dokumen'
 import { Route as AdminAccessControlUsersRouteImport } from './routes/_admin/access-control.users'
 import { Route as AdminAccessControlRolesRouteImport } from './routes/_admin/access-control.roles'
 import { Route as AdminAccessControlMenusRouteImport } from './routes/_admin/access-control.menus'
@@ -161,6 +168,43 @@ const PublicKatalogIdRoute = PublicKatalogIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => PublicKatalogRoute,
 } as any)
+const AdminMasterSumberLeadRoute = AdminMasterSumberLeadRouteImport.update({
+  id: '/master/sumber-lead',
+  path: '/master/sumber-lead',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMasterPerlengkapanRoute = AdminMasterPerlengkapanRouteImport.update({
+  id: '/master/perlengkapan',
+  path: '/master/perlengkapan',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMasterPengecekanRoute = AdminMasterPengecekanRouteImport.update({
+  id: '/master/pengecekan',
+  path: '/master/pengecekan',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMasterMetodePembayaranRoute =
+  AdminMasterMetodePembayaranRouteImport.update({
+    id: '/master/metode-pembayaran',
+    path: '/master/metode-pembayaran',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminMasterLeasingRoute = AdminMasterLeasingRouteImport.update({
+  id: '/master/leasing',
+  path: '/master/leasing',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMasterKategoriPengeluaranRoute =
+  AdminMasterKategoriPengeluaranRouteImport.update({
+    id: '/master/kategori-pengeluaran',
+    path: '/master/kategori-pengeluaran',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminMasterDokumenRoute = AdminMasterDokumenRouteImport.update({
+  id: '/master/dokumen',
+  path: '/master/dokumen',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAccessControlUsersRoute = AdminAccessControlUsersRouteImport.update({
   id: '/access-control/users',
   path: '/access-control/users',
@@ -203,6 +247,13 @@ export interface FileRoutesByFullPath {
   '/access-control/menus': typeof AdminAccessControlMenusRoute
   '/access-control/roles': typeof AdminAccessControlRolesRoute
   '/access-control/users': typeof AdminAccessControlUsersRoute
+  '/master/dokumen': typeof AdminMasterDokumenRoute
+  '/master/kategori-pengeluaran': typeof AdminMasterKategoriPengeluaranRoute
+  '/master/leasing': typeof AdminMasterLeasingRoute
+  '/master/metode-pembayaran': typeof AdminMasterMetodePembayaranRoute
+  '/master/pengecekan': typeof AdminMasterPengecekanRoute
+  '/master/perlengkapan': typeof AdminMasterPerlengkapanRoute
+  '/master/sumber-lead': typeof AdminMasterSumberLeadRoute
   '/katalog/$id': typeof PublicKatalogIdRoute
 }
 export interface FileRoutesByTo {
@@ -231,6 +282,13 @@ export interface FileRoutesByTo {
   '/access-control/menus': typeof AdminAccessControlMenusRoute
   '/access-control/roles': typeof AdminAccessControlRolesRoute
   '/access-control/users': typeof AdminAccessControlUsersRoute
+  '/master/dokumen': typeof AdminMasterDokumenRoute
+  '/master/kategori-pengeluaran': typeof AdminMasterKategoriPengeluaranRoute
+  '/master/leasing': typeof AdminMasterLeasingRoute
+  '/master/metode-pembayaran': typeof AdminMasterMetodePembayaranRoute
+  '/master/pengecekan': typeof AdminMasterPengecekanRoute
+  '/master/perlengkapan': typeof AdminMasterPerlengkapanRoute
+  '/master/sumber-lead': typeof AdminMasterSumberLeadRoute
   '/katalog/$id': typeof PublicKatalogIdRoute
 }
 export interface FileRoutesById {
@@ -262,6 +320,13 @@ export interface FileRoutesById {
   '/_admin/access-control/menus': typeof AdminAccessControlMenusRoute
   '/_admin/access-control/roles': typeof AdminAccessControlRolesRoute
   '/_admin/access-control/users': typeof AdminAccessControlUsersRoute
+  '/_admin/master/dokumen': typeof AdminMasterDokumenRoute
+  '/_admin/master/kategori-pengeluaran': typeof AdminMasterKategoriPengeluaranRoute
+  '/_admin/master/leasing': typeof AdminMasterLeasingRoute
+  '/_admin/master/metode-pembayaran': typeof AdminMasterMetodePembayaranRoute
+  '/_admin/master/pengecekan': typeof AdminMasterPengecekanRoute
+  '/_admin/master/perlengkapan': typeof AdminMasterPerlengkapanRoute
+  '/_admin/master/sumber-lead': typeof AdminMasterSumberLeadRoute
   '/_public/katalog/$id': typeof PublicKatalogIdRoute
 }
 export interface FileRouteTypes {
@@ -292,6 +357,13 @@ export interface FileRouteTypes {
     | '/access-control/menus'
     | '/access-control/roles'
     | '/access-control/users'
+    | '/master/dokumen'
+    | '/master/kategori-pengeluaran'
+    | '/master/leasing'
+    | '/master/metode-pembayaran'
+    | '/master/pengecekan'
+    | '/master/perlengkapan'
+    | '/master/sumber-lead'
     | '/katalog/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -320,6 +392,13 @@ export interface FileRouteTypes {
     | '/access-control/menus'
     | '/access-control/roles'
     | '/access-control/users'
+    | '/master/dokumen'
+    | '/master/kategori-pengeluaran'
+    | '/master/leasing'
+    | '/master/metode-pembayaran'
+    | '/master/pengecekan'
+    | '/master/perlengkapan'
+    | '/master/sumber-lead'
     | '/katalog/$id'
   id:
     | '__root__'
@@ -350,6 +429,13 @@ export interface FileRouteTypes {
     | '/_admin/access-control/menus'
     | '/_admin/access-control/roles'
     | '/_admin/access-control/users'
+    | '/_admin/master/dokumen'
+    | '/_admin/master/kategori-pengeluaran'
+    | '/_admin/master/leasing'
+    | '/_admin/master/metode-pembayaran'
+    | '/_admin/master/pengecekan'
+    | '/_admin/master/perlengkapan'
+    | '/_admin/master/sumber-lead'
     | '/_public/katalog/$id'
   fileRoutesById: FileRoutesById
 }
@@ -536,6 +622,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicKatalogIdRouteImport
       parentRoute: typeof PublicKatalogRoute
     }
+    '/_admin/master/sumber-lead': {
+      id: '/_admin/master/sumber-lead'
+      path: '/master/sumber-lead'
+      fullPath: '/master/sumber-lead'
+      preLoaderRoute: typeof AdminMasterSumberLeadRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/master/perlengkapan': {
+      id: '/_admin/master/perlengkapan'
+      path: '/master/perlengkapan'
+      fullPath: '/master/perlengkapan'
+      preLoaderRoute: typeof AdminMasterPerlengkapanRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/master/pengecekan': {
+      id: '/_admin/master/pengecekan'
+      path: '/master/pengecekan'
+      fullPath: '/master/pengecekan'
+      preLoaderRoute: typeof AdminMasterPengecekanRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/master/metode-pembayaran': {
+      id: '/_admin/master/metode-pembayaran'
+      path: '/master/metode-pembayaran'
+      fullPath: '/master/metode-pembayaran'
+      preLoaderRoute: typeof AdminMasterMetodePembayaranRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/master/leasing': {
+      id: '/_admin/master/leasing'
+      path: '/master/leasing'
+      fullPath: '/master/leasing'
+      preLoaderRoute: typeof AdminMasterLeasingRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/master/kategori-pengeluaran': {
+      id: '/_admin/master/kategori-pengeluaran'
+      path: '/master/kategori-pengeluaran'
+      fullPath: '/master/kategori-pengeluaran'
+      preLoaderRoute: typeof AdminMasterKategoriPengeluaranRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/master/dokumen': {
+      id: '/_admin/master/dokumen'
+      path: '/master/dokumen'
+      fullPath: '/master/dokumen'
+      preLoaderRoute: typeof AdminMasterDokumenRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/access-control/users': {
       id: '/_admin/access-control/users'
       path: '/access-control/users'
@@ -580,6 +715,13 @@ interface AdminRouteChildren {
   AdminAccessControlMenusRoute: typeof AdminAccessControlMenusRoute
   AdminAccessControlRolesRoute: typeof AdminAccessControlRolesRoute
   AdminAccessControlUsersRoute: typeof AdminAccessControlUsersRoute
+  AdminMasterDokumenRoute: typeof AdminMasterDokumenRoute
+  AdminMasterKategoriPengeluaranRoute: typeof AdminMasterKategoriPengeluaranRoute
+  AdminMasterLeasingRoute: typeof AdminMasterLeasingRoute
+  AdminMasterMetodePembayaranRoute: typeof AdminMasterMetodePembayaranRoute
+  AdminMasterPengecekanRoute: typeof AdminMasterPengecekanRoute
+  AdminMasterPerlengkapanRoute: typeof AdminMasterPerlengkapanRoute
+  AdminMasterSumberLeadRoute: typeof AdminMasterSumberLeadRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -602,6 +744,13 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAccessControlMenusRoute: AdminAccessControlMenusRoute,
   AdminAccessControlRolesRoute: AdminAccessControlRolesRoute,
   AdminAccessControlUsersRoute: AdminAccessControlUsersRoute,
+  AdminMasterDokumenRoute: AdminMasterDokumenRoute,
+  AdminMasterKategoriPengeluaranRoute: AdminMasterKategoriPengeluaranRoute,
+  AdminMasterLeasingRoute: AdminMasterLeasingRoute,
+  AdminMasterMetodePembayaranRoute: AdminMasterMetodePembayaranRoute,
+  AdminMasterPengecekanRoute: AdminMasterPengecekanRoute,
+  AdminMasterPerlengkapanRoute: AdminMasterPerlengkapanRoute,
+  AdminMasterSumberLeadRoute: AdminMasterSumberLeadRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
