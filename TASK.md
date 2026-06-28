@@ -3,7 +3,7 @@
 > Daftar task actionable turunan dari [PRD.md](PRD.md) & [SRS](SRS_GM_Mobilindo.md).
 > Status: `[x]` selesai · `[~]` sebagian · `[ ]` belum. Prioritas: 🔴 tinggi · 🟠 sedang · 🟢 rendah.
 >
-> **Terakhir diperbarui:** 25 Juni 2026
+> **Terakhir diperbarui:** 28 Juni 2026
 
 ---
 
@@ -27,15 +27,18 @@
 ### Autentikasi (API nyata)
 - [x] Axios client + base URL fleksibel (env)
 - [x] Interceptor 1 pintu: attach token + auto-refresh 401 (rotation + antrean)
+- [x] Refresh **hanya** saat `INVALID_ACCESS_TOKEN`; kode sesi-berakhir → langsung logout
 - [x] Global error handler (network/timeout/5xx/parsing) + GlobalErrorModal
 - [x] Login (identifier+password), `/auth/me` hydrate, logout, guard `_admin`
+- [x] **Modal konfirmasi logout** + bersihkan cache React Query saat logout
+- [x] **Logout semua perangkat** (`/auth/logout-all`) dgn konfirmasi di Header
 
 ### Master Data (API nyata)
 - [x] Merek + Tipe (nested) CRUD + paginated/search
 - [x] Vendor CRUD
-- [x] Cabang CRUD + galeri foto (upload/hapus, media `/m/:id`)
-- [x] Akses Control: Role, User, Menu/Group/Permission (CRUD + set permission/role/branch)
-- [x] Master sederhana via komponen generik `SimpleMasterPage`: **Leasing, Sumber Lead, Pengecekan, Kategori Pengeluaran, Metode Pembayaran, Dokumen, Perlengkapan**
+- [x] Cabang CRUD + **PIC (dropdown user aktif, `picId` wajib)** + galeri foto (upload/hapus dgn konfirmasi, media `/m/:id`)
+- [x] Akses Control: Role, User, Menu/Group/Permission (CRUD + set permission/role/branch) — halaman Menu dirapikan jadi alur 3-kolom (Group → Menu → Permission)
+- [x] Master sederhana via komponen generik `SimpleMasterPage` (`code` **wajib** + auto-uppercase): **Leasing, Sumber Lead, Pengecekan, Kategori Pengeluaran, Metode Pembayaran, Dokumen, Perlengkapan**
 
 ### Modul admin (dummy)
 - [x] Dashboard (stat, ready stock, grafik, pipeline, rekondisi, aktivitas)
@@ -43,6 +46,34 @@
 - [x] CRM/Lead (kanban), Test Drive, Penjualan, Pembayaran (CRUD)
 - [x] Pengeluaran & Cash Flow
 - [x] Laporan (ringkasan) & Pengaturan
+
+---
+
+## 📊 Status Integrasi API (`master_prd.md` §3–§19)
+
+> Audit endpoint-per-endpoint dokumen API vs kode. **Semua endpoint sudah terintegrasi.** Indikator: ✅ penuh · 🟡 sebagian/belum di-UI · ⬜ belum.
+
+| Module | API frontend | Endpoint | Status |
+|--------|--------------|:--------:|:------:|
+| Role (+ set permission) | `roleApi` | 6/6 | ✅ |
+| User (+ set role/branch, soft-delete) | `userApi` | 7/7 | ✅ |
+| Menu / Group / Permission | `menuApi` | 12/12 | ✅ |
+| Auth (login/refresh/me/logout/logout-all) | `authApi` + interceptor | 5/5 | ✅ |
+| Merek | `merekApi` | 4/5 | ✅ |
+| Tipe (nested) | `tipeApi` | 4/5 | ✅ |
+| Vendor | `vendorApi` | 4/5 | ✅ |
+| Branch & Media | `branchApi` | 8/8 | ✅ |
+| Leasing | `leasingApi` | 4/5 | ✅ |
+| Sumber Lead | `sumberLeadApi` | 4/5 | ✅ |
+| Pengecekan | `pengecekanApi` | 4/5 | ✅ |
+| Kategori Pengeluaran | `kategoriPengeluaranApi` | 4/5 | ✅ |
+| Metode Pembayaran | `metodePembayaranApi` | 4/5 | ✅ |
+| Dokumen | `dokumenApi` | 4/5 | ✅ |
+| Perlengkapan | `perlengkapanApi` | 4/5 | ✅ |
+
+> *4/5 = endpoint detail `GET /:id` belum dipakai karena data sudah lengkap dari endpoint list — bukan kekurangan.*
+>
+> **Penyempurnaan opsional (bukan endpoint baru):** filter list User via `roleId`/`isActive` (belum ada kontrol UI), endpoint detail `GET /:id` bila kelak dibutuhkan.
 
 ---
 
@@ -60,7 +91,7 @@
 - [ ] 🟢 Dashboard & Laporan (agregasi dari API)
 
 ### B. RBAC & Multi-user 🔴
-- [x] **Sidebar dinamis** dari `groupMenus` (`/auth/me`) + fallback menu statis
+- [x] **Sidebar dinamis** dari `groupMenus` (`/auth/me`) + fallback menu statis — path backend di-resolve ke route frontend nyata via `PATH_BY_CODE` (anti-404), grup **Akses Kontrol** (Role/User/Menu) kini tampil di sidebar
 - [x] Halaman manajemen **Role** (CRUD + set permission)
 - [x] Halaman manajemen **User** (CRUD + set role + set branch)
 - [x] Halaman manajemen **Menu/Group/Permission**
@@ -99,6 +130,7 @@
 - [ ] 🔴 **Audit Log** (siapa, sebelum, sesudah, waktu)
 
 ### H. Lain-lain 🟢
+- [x] **Halaman 404** (`NotFound`) ber-branding + `defaultNotFoundComponent` di router (tombol Kembali / Dashboard / Katalog)
 - [ ] 🟢 Fungsikan wishlist/favorit (tombol hati) & bandingkan mobil
 - [ ] 🟢 Validasi form menyeluruh (Zod)
 - [ ] 🟢 Code-splitting (chunk > 500kB) + optimasi gambar

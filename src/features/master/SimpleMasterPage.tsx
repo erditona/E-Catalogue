@@ -43,7 +43,7 @@ const FormModal = ({ open, onClose, item, withCode, submitting, onSubmit }: {
       footer={<><Button variant="secondary" onClick={onClose}>Batal</Button><Button type="submit" form="sm-form" disabled={submitting}>{submitting ? 'Menyimpan...' : 'Simpan'}</Button></>}>
       <form id="sm-form" onSubmit={submit} className="space-y-4">
         <TextField label="Nama" required value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder="Masukkan nama" />
-        {withCode && <TextField label="Kode" value={form.code} onChange={(e) => setForm((f) => ({ ...f, code: e.target.value }))} placeholder="mis. L001" />}
+        {withCode && <TextField label="Kode" required value={form.code} onChange={(e) => setForm((f) => ({ ...f, code: e.target.value.toUpperCase() }))} placeholder="mis. LEASING_A" />}
         <label className="flex items-center gap-2.5 cursor-pointer select-none">
           <input type="checkbox" checked={form.isActive} onChange={(e) => setForm((f) => ({ ...f, isActive: e.target.checked }))} className="w-4 h-4 accent-[color:var(--color-primary)]" />
           <span className="text-[13px] font-semibold text-ink-soft">Aktif</span>

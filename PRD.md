@@ -3,7 +3,7 @@
 > Product Requirements Document turunan dari [`SRS_GM_Mobilindo.md`](SRS_GM_Mobilindo.md).
 > Dokumen ini memecah SRS menjadi requirement + **task list** dengan status pengerjaan, sehingga jelas apa yang **sudah**, **sebagian**, dan **belum** dikerjakan.
 
-**Terakhir diperbarui:** 25 Juni 2026
+**Terakhir diperbarui:** 28 Juni 2026
 
 ---
 
@@ -54,12 +54,15 @@ Sesuai SRS — **belum diberlakukan** (saat ini single-user full akses). Menjadi
 
 **Task RBAC / Auth:**
 - [x] ✅ **Auth nyata** (login `identifier`+password) terhubung ke backend `/api/v1/auth/*`
-- [x] ✅ Token (access + refresh) + **auto-refresh on 401** (rotation) via interceptor Axios
-- [x] ✅ Hidrasi sesi `/auth/me` saat load + **logout** (cabut session) + **guard** route `_admin`
-- [ ] 🟡 RBAC: `permissionCodes` & `groupMenus` sudah diterima dari API — belum dipakai untuk filter menu/aksi
-- [ ] ⬜ Guard per-permission tiap route/aksi (CREATE/UPDATE/DELETE)
-- [ ] ⬜ Sembunyikan menu sidebar sesuai `groupMenus`/permission
-- [ ] ⬜ Halaman manajemen Role / User / Menu (endpoint tersedia di backend)
+- [x] ✅ Token (access + refresh) + **auto-refresh on 401** (rotation) via interceptor Axios — refresh **hanya** saat kode error `INVALID_ACCESS_TOKEN`; kode sesi-berakhir (`INVALID_REFRESH_TOKEN`/`SESSION_REVOKED`/`SESSION_EXPIRED`/`USER_INACTIVE`) langsung logout
+- [x] ✅ Hidrasi sesi `/auth/me` saat load + **logout** (cabut session + bersihkan cache React Query) + **guard** route `_admin`
+- [x] ✅ **Modal konfirmasi logout** sebelum keluar (Header) + **Logout semua perangkat** (`/auth/logout-all`)
+- [x] ✅ RBAC: `permissionCodes` & `groupMenus` dipakai untuk **filter menu & aksi** (`usePermissions`/`Can`/`RequirePermission`)
+- [x] ✅ Guard aksi per-permission (CREATE/UPDATE/DELETE) + gate halaman per `*_READ`
+- [x] ✅ Sidebar dinamis sesuai `groupMenus` + fallback statis — path backend di-resolve ke route nyata (anti-404) + grup **Akses Kontrol** (Role/User/Menu) muncul di sidebar
+- [x] ✅ **Halaman 404** ber-branding (`NotFound`) terpasang sebagai `defaultNotFoundComponent`
+- [x] ✅ Halaman manajemen Role / User / Menu (CRUD + set permission/role/branch)
+- [ ] 🟠 Terapkan guard aksi yang sama ke modul Master Data begitu kode permission-nya tersedia
 
 ---
 
@@ -253,10 +256,10 @@ Endpoint master data sudah tersedia di backend & **terhubung nyata** (React Quer
 
 **Cabang / Branch + Media** (`/api/v1/branches`, `/branches/:id/images`, `/m/:id`)
 - [x] ✅ List (paginated + search) + CRUD (nama, code, lokasi, longlat, kontak)
-- [x] ✅ **Galeri foto**: upload (multipart) & hapus, preview via media publik `/m/:id`
-- [ ] 🟡 Pilih PIC cabang (perlu integrasi list user)
+- [x] ✅ **PIC cabang** — dropdown user aktif (`picId` wajib saat create, PRD API §12.4); `code` auto-uppercase; `lokasi/longlat/kontak` wajib
+- [x] ✅ **Galeri foto**: upload (multipart) & hapus (dengan konfirmasi), preview via media publik `/m/:id`
 
-**Master sederhana (name + code + isActive)** — terhubung API via komponen generik `SimpleMasterPage`:
+**Master sederhana (name + code + isActive)** — terhubung API via komponen generik `SimpleMasterPage` (`code` **wajib**, min. 2, auto-uppercase sesuai PRD API §13–19):
 - [x] ✅ Leasing (`/api/v1/leasings`)
 - [x] ✅ Sumber Lead (`/api/v1/sumber-leads`)
 - [x] ✅ Pengecekan (`/api/v1/pengecekans`)
@@ -271,10 +274,45 @@ Endpoint master data sudah tersedia di backend & **terhubung nyata** (React Quer
 
 ---
 
+## 14c. Status Integrasi API — `master_prd.md` (§1–§19)
+
+> Hasil audit **endpoint-per-endpoint** dokumen API vs kode frontend. Indikator: ✅ terintegrasi penuh · 🟡 sebagian / belum di-UI · ⬜ belum.
+> **Kesimpulan: seluruh endpoint pada `master_prd.md` (§3–§19) sudah terintegrasi di layer API frontend.**
+
+| § | Module | Endpoint (terpakai/total) | Frontend API | Halaman / UI | Status |
+|---|--------|:-------------------------:|--------------|--------------|:------:|
+| 3 | Role (+ set permission) | 6/6 | `roleApi` | Akses · Role | ✅ |
+| 4 | User (+ set role/branch, soft-delete) | 7/7 | `userApi` | Akses · User | ✅ |
+| 5 | Menu / Group / Permission | 12/12 | `menuApi` | Akses · Menu (3-kolom) | ✅ |
+| 6 | Auth (login/refresh/me/logout/logout-all) | 5/5 | `authApi` + interceptor | Login · Header | ✅ |
+| 9 | Merek | 4/5 *(detail `/:id` tak dipakai — data dari list)* | `merekApi` | Merek | ✅ |
+| 10 | Tipe (nested in Merek) | 4/5 *(detail tak dipakai)* | `tipeApi` | Merek → Tipe | ✅ |
+| 11 | Vendor | 4/5 *(detail tak dipakai)* | `vendorApi` | Vendor | ✅ |
+| 12 | Branch & Media (+ upload/hapus gambar) | 8/8 | `branchApi` | Cabang | ✅ |
+| 13 | Leasing | 4/5 | `leasingApi` | Master · Leasing | ✅ |
+| 14 | Sumber Lead | 4/5 | `sumberLeadApi` | Master · Sumber Lead | ✅ |
+| 15 | Pengecekan | 4/5 | `pengecekanApi` | Master · Pengecekan | ✅ |
+| 16 | Kategori Pengeluaran | 4/5 | `kategoriPengeluaranApi` | Master · Kategori Pengeluaran | ✅ |
+| 17 | Metode Pembayaran | 4/5 | `metodePembayaranApi` | Master · Metode Pembayaran | ✅ |
+| 18 | Dokumen | 4/5 | `dokumenApi` | Master · Dokumen | ✅ |
+| 19 | Perlengkapan | 4/5 | `perlengkapanApi` | Master · Perlengkapan | ✅ |
+
+**Catatan kepatuhan aturan input PRD API:**
+- ✅ Branch: `picId` (dropdown user aktif) wajib; `code` auto-uppercase; `lokasi/longlat/kontak` wajib (§12.4).
+- ✅ Master sederhana: `code` wajib + auto-uppercase (§13–19; error `CODE_ALREADY_EXISTS` ditangani lewat `notifyApiError`).
+- ✅ Auth: refresh code-aware + **logout-all** kini tersedia di UI ("Keluar dari Semua Perangkat").
+
+**Penyempurnaan opsional (bukan endpoint baru):**
+- [ ] 🟡 Filter list User pakai query `roleId` & `isActive` (sudah didukung `ListParams`, belum ada kontrol UI).
+- [ ] 🟢 Endpoint detail `GET /:id` (Merek/Tipe/Vendor) bila kelak butuh data lebih lengkap dari list.
+
+---
+
 ## 15. Cross-cutting
 
 - [ ] ⬜ **Audit Log** (siapa, sebelum, sesudah, waktu) untuk setiap perubahan data
-- [x] ✅ **Autentikasi** terintegrasi API (lihat §2); 🟡 RBAC enforcement belum
+- [x] ✅ **Konfirmasi aksi** lewat `ConfirmDialog` reusable (tone danger/warning/primary, loading state) — dipakai di semua aksi delete + logout
+- [x] ✅ **Autentikasi** terintegrasi API (lihat §2) + **RBAC enforcement** (menu & aksi per-permission)
 - [ ] 🟡 Integrasi API — **auth + master data (merek/tipe/vendor/cabang) sudah**; modul bisnis (unit/lead/sales/dll) masih dummy (menunggu endpoint)
 - [ ] ⬜ Upload file (KTP, SIM, invoice, BPKB)
 - [ ] ⬜ Validasi form menyeluruh (Zod)
@@ -308,7 +346,7 @@ Endpoint master data sudah tersedia di backend & **terhubung nyata** (React Quer
 - [ ] ⬜ Audit log
 
 ### Fase 3 — Multi-user & integrasi
-- [ ] ⬜ Auth nyata + RBAC (Owner/Admin/Sales)
+- [x] ✅ Auth nyata + RBAC (mekanisme permission/menu) — pemetaan matriks Owner/Admin/Sales mengikuti data role backend
 - [ ] ⬜ Integrasi API/backend
 - [ ] ⬜ Upload dokumen
 
@@ -341,7 +379,7 @@ Endpoint master data sudah tersedia di backend & **terhubung nyata** (React Quer
 | Laporan | 🟡 |
 | Situs Publik (E-Catalogue) | ✅ |
 | Autentikasi (login/refresh/logout/guard) | ✅ |
-| RBAC enforcement (permission/menu) | 🟡 |
+| RBAC enforcement (permission/menu) | ✅ |
 | Audit Log | ⬜ |
 | Integrasi API modul bisnis | ⬜ |
 

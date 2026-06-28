@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation, Link, useNavigate } from '@tanstack/react-router';
-import { Menu, Search, Bell, CalendarDays, ChevronDown, Store, LogOut } from 'lucide-react';
+import { Menu, Search, Bell, CalendarDays, ChevronDown, Store, LogOut, ShieldOff } from 'lucide-react';
 import { MENU_ITEMS } from './menu';
 import { CURRENT_USER } from '@/shared/constants';
 import { useAppSelector, useAppDispatch } from '@/app/store';
@@ -30,11 +30,27 @@ export const Header = ({ onOpenMobileSidebar, isProfileOpen, onToggleProfile }: 
   const initials = name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 
   const [confirmLogout, setConfirmLogout] = useState(false);
+  const [confirmLogoutAll, setConfirmLogoutAll] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
 
   const askLogout = () => {
     onToggleProfile(); // tutup dropdown profil
     setConfirmLogout(true);
+  };
+
+  const askLogoutAll = () => {
+    onToggleProfile();
+    setConfirmLogoutAll(true);
+  };
+
+  // Bersihkan sesi lokal & arahkan ke login (dipakai logout & logout-all).
+  const finishLogout = () => {
+    dispatch(clearCredentials());
+    queryClient.clear(); // bersihkan cache profil & data sesi (guide §4)
+    setConfirmLogout(false);
+    setConfirmLogoutAll(false);
+    setLoggingOut(false);
+    navigate({ to: '/login' });
   };
 
   const handleLogout = async () => {
@@ -44,11 +60,17 @@ export const Header = ({ onOpenMobileSidebar, isProfileOpen, onToggleProfile }: 
     } catch {
       /* abaikan error logout; tetap bersihkan sesi lokal */
     }
-    dispatch(clearCredentials());
-    queryClient.clear(); // bersihkan cache profil & data sesi (guide §4)
-    setConfirmLogout(false);
-    setLoggingOut(false);
-    navigate({ to: '/login' });
+    finishLogout();
+  };
+
+  const handleLogoutAll = async () => {
+    setLoggingOut(true);
+    try {
+      await authApi.logoutAll();
+    } catch {
+      /* abaikan error; tetap bersihkan sesi lokal */
+    }
+    finishLogout();
   };
 
   return (
@@ -125,6 +147,9 @@ export const Header = ({ onOpenMobileSidebar, isProfileOpen, onToggleProfile }: 
                 <button onClick={askLogout} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-semantic-error hover:bg-semantic-error/10 transition-colors">
                   <LogOut size={16} /> Keluar
                 </button>
+                <button onClick={askLogoutAll} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-ink-soft hover:bg-surface-soft transition-colors">
+                  <ShieldOff size={16} /> Keluar dari Semua Perangkat
+                </button>
               </div>
             </div>
           )}
@@ -140,6 +165,20 @@ export const Header = ({ onOpenMobileSidebar, isProfileOpen, onToggleProfile }: 
         title="Keluar dari Akun?"
         message={`Anda akan keluar dari sesi ${name}. Pastikan pekerjaan sudah tersimpan.`}
         confirmLabel={loggingOut ? 'Keluar...' : 'Ya, Keluar'}
+        cancelLabel="Batal"
+        loading={loggingOut}
+        closeOnConfirm={false}
+      />
+
+      <ConfirmDialog
+        open={confirmLogoutAll}
+        onClose={() => !loggingOut && setConfirmLogoutAll(false)}
+        onConfirm={handleLogoutAll}
+        tone="danger"
+        icon={ShieldOff}
+        title="Keluar dari Semua Perangkat?"
+        message="Seluruh sesi aktif Anda di semua perangkat akan dicabut. Gunakan ini bila akun dirasa berisiko."
+        confirmLabel={loggingOut ? 'Memproses...' : 'Ya, Cabut Semua'}
         cancelLabel="Batal"
         loading={loggingOut}
         closeOnConfirm={false}

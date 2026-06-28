@@ -1,6 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router';
 import { ChevronLeft, ChevronRight, Car, type LucideIcon } from 'lucide-react';
-import { MENU_ITEMS } from './menu';
+import { MENU_ITEMS, PATH_BY_CODE, VALID_PATHS } from './menu';
 import { Logo } from './Logo';
 import { QuickInput } from './QuickInput';
 import { Tooltip } from '@/shared/components/ui/Tooltip';
@@ -29,7 +29,24 @@ const STATIC_GROUP_LABELS: Record<string, string> = {
   main: 'Menu Utama',
   operasional: 'Operasional',
   master: 'Master Data',
+  akses: 'Akses Kontrol',
   lainnya: 'Lainnya',
+};
+
+const STATIC_GROUP_ORDER = ['main', 'operasional', 'master', 'akses', 'lainnya'] as const;
+
+const buildStaticGroups = (): NavGroup[] =>
+  STATIC_GROUP_ORDER.map((key) => ({
+    key,
+    label: STATIC_GROUP_LABELS[key],
+    items: MENU_ITEMS.filter((m) => m.group === key).map((m) => ({ path: m.path, label: m.label, Icon: m.icon })),
+  })).filter((g) => g.items.length > 0);
+
+// Petakan path/kode menu backend ke route frontend nyata; null jika tak ada route-nya (hindari 404).
+const resolveFrontendPath = (m: { path?: string | null; code?: string }): string | null => {
+  if (m.code && PATH_BY_CODE[m.code]) return PATH_BY_CODE[m.code];
+  if (m.path && VALID_PATHS.has(m.path)) return m.path;
+  return null;
 };
 
 export const Sidebar = ({ isMobileOpen, isDesktopOpen, onCloseMobile, onToggleDesktop }: SidebarProps) => {
@@ -37,30 +54,28 @@ export const Sidebar = ({ isMobileOpen, isDesktopOpen, onCloseMobile, onToggleDe
   const isExpanded = isDesktopOpen || isMobileOpen;
   const groupMenus = useAppSelector((s) => s.auth.groupMenus);
 
-  // Menu dinamis dari hak akses (groupMenus dari /auth/me). Fallback ke menu statis bila kosong.
-  let navGroups: NavGroup[];
+  // Menu dinamis dari hak akses (groupMenus dari /auth/me) — path di-resolve ke route nyata
+  // agar tidak 404. Fallback ke menu statis bila kosong / tak ada yang ter-resolve.
+  let navGroups: NavGroup[] = [];
   if (groupMenus && groupMenus.length > 0) {
     navGroups = [...groupMenus]
       .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
       .map((g) => ({
         key: g.id,
         label: g.name,
-        items: (g.menus ?? [])
-          .filter((m) => !!m.path)
+        items: [...(g.menus ?? [])]
           .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-          .map((m) => ({ path: m.path as string, label: m.name, Icon: resolveIcon({ icon: m.icon, code: m.code, path: m.path }) })),
-      }))
-      .filter((g) => g.items.length > 0);
-  } else {
-    const order = ['main', 'operasional', 'master', 'lainnya'] as const;
-    navGroups = order
-      .map((key) => ({
-        key,
-        label: STATIC_GROUP_LABELS[key],
-        items: MENU_ITEMS.filter((m) => m.group === key).map((m) => ({ path: m.path, label: m.label, Icon: m.icon })),
+          .map((m) => {
+            const path = resolveFrontendPath(m);
+            return path ? { path, label: m.name, Icon: resolveIcon({ icon: m.icon, code: m.code, path: m.path }) } : null;
+          })
+          .filter((it): it is NavItem => it !== null),
       }))
       .filter((g) => g.items.length > 0);
   }
+
+  // Bila tak ada menu backend yang ter-resolve, pakai menu statis penuh.
+  if (navGroups.length === 0) navGroups = buildStaticGroups();
 
   return (
     <>
