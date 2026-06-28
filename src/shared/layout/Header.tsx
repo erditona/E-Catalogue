@@ -1,10 +1,13 @@
+import { useState } from 'react';
 import { useLocation, Link, useNavigate } from '@tanstack/react-router';
 import { Menu, Search, Bell, CalendarDays, ChevronDown, Store, LogOut } from 'lucide-react';
 import { MENU_ITEMS } from './menu';
 import { CURRENT_USER } from '@/shared/constants';
 import { useAppSelector, useAppDispatch } from '@/app/store';
+import { queryClient } from '@/app/queryClient';
 import { clearCredentials } from '@/app/store/authSlice';
 import { authApi } from '@/features/auth/auth.api';
+import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
 
 interface HeaderProps {
   onOpenMobileSidebar: () => void;
@@ -26,13 +29,25 @@ export const Header = ({ onOpenMobileSidebar, isProfileOpen, onToggleProfile }: 
   const role = user?.role?.name ?? CURRENT_USER.role;
   const initials = name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 
+  const [confirmLogout, setConfirmLogout] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const askLogout = () => {
+    onToggleProfile(); // tutup dropdown profil
+    setConfirmLogout(true);
+  };
+
   const handleLogout = async () => {
+    setLoggingOut(true);
     try {
       await authApi.logout();
     } catch {
       /* abaikan error logout; tetap bersihkan sesi lokal */
     }
     dispatch(clearCredentials());
+    queryClient.clear(); // bersihkan cache profil & data sesi (guide §4)
+    setConfirmLogout(false);
+    setLoggingOut(false);
     navigate({ to: '/login' });
   };
 
@@ -107,7 +122,7 @@ export const Header = ({ onOpenMobileSidebar, isProfileOpen, onToggleProfile }: 
                 <Link to="/pengaturan" onClick={onToggleProfile} className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-ink-soft hover:bg-surface-soft transition-colors">
                   Pengaturan
                 </Link>
-                <button onClick={handleLogout} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-semantic-error hover:bg-semantic-error/10 transition-colors">
+                <button onClick={askLogout} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-semantic-error hover:bg-semantic-error/10 transition-colors">
                   <LogOut size={16} /> Keluar
                 </button>
               </div>
@@ -115,6 +130,20 @@ export const Header = ({ onOpenMobileSidebar, isProfileOpen, onToggleProfile }: 
           )}
         </div>
       </div>
+
+      <ConfirmDialog
+        open={confirmLogout}
+        onClose={() => !loggingOut && setConfirmLogout(false)}
+        onConfirm={handleLogout}
+        tone="warning"
+        icon={LogOut}
+        title="Keluar dari Akun?"
+        message={`Anda akan keluar dari sesi ${name}. Pastikan pekerjaan sudah tersimpan.`}
+        confirmLabel={loggingOut ? 'Keluar...' : 'Ya, Keluar'}
+        cancelLabel="Batal"
+        loading={loggingOut}
+        closeOnConfirm={false}
+      />
     </header>
   );
 };

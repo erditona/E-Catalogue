@@ -1,7 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { ImagePlus, Trash2, Loader2, ImageOff } from 'lucide-react';
 import { Modal } from '@/shared/components/ui/Modal';
 import { Button } from '@/shared/components/ui/Button';
+import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
 import { useBranch, useBranchMutations } from './master.hooks';
 import { mediaUrl } from './master.api';
 import { notifyApiError } from '@/core/api/notify';
@@ -18,6 +19,7 @@ export const BranchImagesModal = ({ open, onClose, branch }: Props) => {
   const { data: detail, isLoading } = useBranch(open ? branchId : null);
   const m = useBranchMutations();
   const fileRef = useRef<HTMLInputElement>(null);
+  const [toDelete, setToDelete] = useState<string | null>(null);
 
   const images = detail?.images ?? branch?.images ?? [];
 
@@ -62,7 +64,7 @@ export const BranchImagesModal = ({ open, onClose, branch }: Props) => {
             <div key={img.id} className="group relative rounded-xl overflow-hidden border border-border aspect-[4/3] bg-surface-soft">
               <img src={img.url ?? mediaUrl(img.id)} alt="" className="w-full h-full object-cover" />
               <button
-                onClick={() => branchId && m.deleteImage.mutate({ branchId, imageId: img.id }, { onError: (err) => notifyApiError(err) })}
+                onClick={() => setToDelete(img.id)}
                 className="absolute top-2 right-2 w-8 h-8 rounded-lg bg-surface/90 backdrop-blur text-semantic-error flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
                 title="Hapus foto"
               >
@@ -72,6 +74,16 @@ export const BranchImagesModal = ({ open, onClose, branch }: Props) => {
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        open={!!toDelete}
+        onClose={() => setToDelete(null)}
+        onConfirm={() => {
+          if (branchId && toDelete) m.deleteImage.mutate({ branchId, imageId: toDelete }, { onError: (err) => notifyApiError(err) });
+        }}
+        title="Hapus Foto"
+        message="Foto ini akan dihapus permanen dari galeri cabang. Lanjutkan?"
+      />
     </Modal>
   );
 };
