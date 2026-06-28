@@ -40,6 +40,7 @@ import { Route as AdminMasterPengecekanRouteImport } from './routes/_admin/maste
 import { Route as AdminMasterMetodePembayaranRouteImport } from './routes/_admin/master.metode-pembayaran'
 import { Route as AdminMasterLeasingRouteImport } from './routes/_admin/master.leasing'
 import { Route as AdminMasterKategoriPengeluaranRouteImport } from './routes/_admin/master.kategori-pengeluaran'
+import { Route as AdminMasterInvestorRouteImport } from './routes/_admin/master.investor'
 import { Route as AdminMasterDokumenRouteImport } from './routes/_admin/master.dokumen'
 import { Route as AdminAccessControlUsersRouteImport } from './routes/_admin/access-control.users'
 import { Route as AdminAccessControlRolesRouteImport } from './routes/_admin/access-control.roles'
@@ -200,6 +201,11 @@ const AdminMasterKategoriPengeluaranRoute =
     path: '/master/kategori-pengeluaran',
     getParentRoute: () => AdminRoute,
   } as any)
+const AdminMasterInvestorRoute = AdminMasterInvestorRouteImport.update({
+  id: '/master/investor',
+  path: '/master/investor',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminMasterDokumenRoute = AdminMasterDokumenRouteImport.update({
   id: '/master/dokumen',
   path: '/master/dokumen',
@@ -248,6 +254,7 @@ export interface FileRoutesByFullPath {
   '/access-control/roles': typeof AdminAccessControlRolesRoute
   '/access-control/users': typeof AdminAccessControlUsersRoute
   '/master/dokumen': typeof AdminMasterDokumenRoute
+  '/master/investor': typeof AdminMasterInvestorRoute
   '/master/kategori-pengeluaran': typeof AdminMasterKategoriPengeluaranRoute
   '/master/leasing': typeof AdminMasterLeasingRoute
   '/master/metode-pembayaran': typeof AdminMasterMetodePembayaranRoute
@@ -283,6 +290,7 @@ export interface FileRoutesByTo {
   '/access-control/roles': typeof AdminAccessControlRolesRoute
   '/access-control/users': typeof AdminAccessControlUsersRoute
   '/master/dokumen': typeof AdminMasterDokumenRoute
+  '/master/investor': typeof AdminMasterInvestorRoute
   '/master/kategori-pengeluaran': typeof AdminMasterKategoriPengeluaranRoute
   '/master/leasing': typeof AdminMasterLeasingRoute
   '/master/metode-pembayaran': typeof AdminMasterMetodePembayaranRoute
@@ -321,6 +329,7 @@ export interface FileRoutesById {
   '/_admin/access-control/roles': typeof AdminAccessControlRolesRoute
   '/_admin/access-control/users': typeof AdminAccessControlUsersRoute
   '/_admin/master/dokumen': typeof AdminMasterDokumenRoute
+  '/_admin/master/investor': typeof AdminMasterInvestorRoute
   '/_admin/master/kategori-pengeluaran': typeof AdminMasterKategoriPengeluaranRoute
   '/_admin/master/leasing': typeof AdminMasterLeasingRoute
   '/_admin/master/metode-pembayaran': typeof AdminMasterMetodePembayaranRoute
@@ -358,6 +367,7 @@ export interface FileRouteTypes {
     | '/access-control/roles'
     | '/access-control/users'
     | '/master/dokumen'
+    | '/master/investor'
     | '/master/kategori-pengeluaran'
     | '/master/leasing'
     | '/master/metode-pembayaran'
@@ -393,6 +403,7 @@ export interface FileRouteTypes {
     | '/access-control/roles'
     | '/access-control/users'
     | '/master/dokumen'
+    | '/master/investor'
     | '/master/kategori-pengeluaran'
     | '/master/leasing'
     | '/master/metode-pembayaran'
@@ -430,6 +441,7 @@ export interface FileRouteTypes {
     | '/_admin/access-control/roles'
     | '/_admin/access-control/users'
     | '/_admin/master/dokumen'
+    | '/_admin/master/investor'
     | '/_admin/master/kategori-pengeluaran'
     | '/_admin/master/leasing'
     | '/_admin/master/metode-pembayaran'
@@ -664,6 +676,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMasterKategoriPengeluaranRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/master/investor': {
+      id: '/_admin/master/investor'
+      path: '/master/investor'
+      fullPath: '/master/investor'
+      preLoaderRoute: typeof AdminMasterInvestorRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/master/dokumen': {
       id: '/_admin/master/dokumen'
       path: '/master/dokumen'
@@ -716,6 +735,7 @@ interface AdminRouteChildren {
   AdminAccessControlRolesRoute: typeof AdminAccessControlRolesRoute
   AdminAccessControlUsersRoute: typeof AdminAccessControlUsersRoute
   AdminMasterDokumenRoute: typeof AdminMasterDokumenRoute
+  AdminMasterInvestorRoute: typeof AdminMasterInvestorRoute
   AdminMasterKategoriPengeluaranRoute: typeof AdminMasterKategoriPengeluaranRoute
   AdminMasterLeasingRoute: typeof AdminMasterLeasingRoute
   AdminMasterMetodePembayaranRoute: typeof AdminMasterMetodePembayaranRoute
@@ -745,6 +765,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAccessControlRolesRoute: AdminAccessControlRolesRoute,
   AdminAccessControlUsersRoute: AdminAccessControlUsersRoute,
   AdminMasterDokumenRoute: AdminMasterDokumenRoute,
+  AdminMasterInvestorRoute: AdminMasterInvestorRoute,
   AdminMasterKategoriPengeluaranRoute: AdminMasterKategoriPengeluaranRoute,
   AdminMasterLeasingRoute: AdminMasterLeasingRoute,
   AdminMasterMetodePembayaranRoute: AdminMasterMetodePembayaranRoute,

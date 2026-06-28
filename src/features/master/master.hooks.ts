@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { merekApi, tipeApi, vendorApi, branchApi } from './master.api';
-import type { ListParams } from './types';
+import { merekApi, tipeApi, vendorApi, branchApi, investorApi, investorModalApi } from './master.api';
+import type { ListParams, Investor, InvestorModal } from './types';
 
 // ---------- Merek ----------
 export const useMereks = (params: ListParams) =>
@@ -65,5 +65,37 @@ export const useBranchMutations = () => {
     remove: useMutation({ mutationFn: branchApi.remove, onSuccess: inval }),
     uploadImage: useMutation({ mutationFn: (v: { branchId: string; file: File }) => branchApi.uploadImage(v.branchId, v.file), onSuccess: (_d, v) => { inval(); invalOne(v.branchId); } }),
     deleteImage: useMutation({ mutationFn: (v: { branchId: string; imageId: string }) => branchApi.deleteImage(v.branchId, v.imageId), onSuccess: (_d, v) => { inval(); invalOne(v.branchId); } }),
+  };
+};
+
+// ---------- Investor ----------
+export const useInvestors = (params: ListParams) =>
+  useQuery({ queryKey: ['investors', params], queryFn: () => investorApi.list(params) });
+
+export const useInvestorMutations = () => {
+  const qc = useQueryClient();
+  const inval = () => qc.invalidateQueries({ queryKey: ['investors'] });
+  return {
+    create: useMutation({ mutationFn: (body: Partial<Investor>) => investorApi.create(body), onSuccess: inval }),
+    update: useMutation({ mutationFn: (v: { id: string; body: Partial<Investor> }) => investorApi.update(v.id, v.body), onSuccess: inval }),
+    remove: useMutation({ mutationFn: investorApi.remove, onSuccess: inval }),
+  };
+};
+
+// ---------- Investor Modal (nested) ----------
+export const useInvestorModals = (investorId: string | null, params: ListParams) =>
+  useQuery({
+    queryKey: ['investor-modals', investorId, params],
+    queryFn: () => investorModalApi.list(investorId as string, params),
+    enabled: !!investorId,
+  });
+
+export const useInvestorModalMutations = (investorId: string) => {
+  const qc = useQueryClient();
+  const inval = () => qc.invalidateQueries({ queryKey: ['investor-modals', investorId] });
+  return {
+    create: useMutation({ mutationFn: (body: Partial<InvestorModal>) => investorModalApi.create(investorId, body), onSuccess: inval }),
+    update: useMutation({ mutationFn: (v: { id: string; body: Partial<InvestorModal> }) => investorModalApi.update(investorId, v.id, v.body), onSuccess: inval }),
+    remove: useMutation({ mutationFn: (id: string) => investorModalApi.remove(investorId, id), onSuccess: inval }),
   };
 };

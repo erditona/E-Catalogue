@@ -1,6 +1,6 @@
 import { apiClient, API_ORIGIN } from '@/core/api/client';
 import type { ApiResponse } from '@/core/api/types';
-import type { Merek, Tipe, Vendor, Branch, BranchImage, ListParams } from './types';
+import type { Merek, Tipe, Vendor, Branch, BranchImage, Investor, InvestorModal, ListParams } from './types';
 
 // URL publik untuk media (gambar) berdasarkan id.
 export const mediaUrl = (id: string) => `${API_ORIGIN}/m/${id}`;
@@ -44,4 +44,20 @@ export const branchApi = {
       .then((r) => r.data.data);
   },
   deleteImage: (branchId: string, imageId: string) => apiClient.delete(`/branches/${branchId}/images/${imageId}`).then((r) => r.data),
+};
+
+// ---- Investor ----
+export const investorApi = {
+  list: (params: ListParams) => apiClient.get<ApiResponse<Investor[]>>('/investors', { params }).then((r) => r.data),
+  create: (body: Partial<Investor>) => apiClient.post<ApiResponse<Investor>>('/investors', body).then((r) => r.data.data),
+  update: (id: string, body: Partial<Investor>) => apiClient.patch<ApiResponse<Investor>>(`/investors/${id}`, body).then((r) => r.data.data),
+  remove: (id: string) => apiClient.delete(`/investors/${id}`).then((r) => r.data),
+};
+
+// ---- Investor Modal (nested di investor) ----
+export const investorModalApi = {
+  list: (investorId: string, params: ListParams) => apiClient.get<ApiResponse<InvestorModal[]>>(`/investors/${investorId}/modals`, { params }).then((r) => r.data),
+  create: (investorId: string, body: Partial<InvestorModal>) => apiClient.post<ApiResponse<InvestorModal>>(`/investors/${investorId}/modals`, body).then((r) => r.data.data),
+  update: (investorId: string, id: string, body: Partial<InvestorModal>) => apiClient.patch<ApiResponse<InvestorModal>>(`/investors/${investorId}/modals/${id}`, body).then((r) => r.data.data),
+  remove: (investorId: string, id: string) => apiClient.delete(`/investors/${investorId}/modals/${id}`).then((r) => r.data),
 };

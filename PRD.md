@@ -268,16 +268,20 @@ Endpoint master data sudah tersedia di backend & **terhubung nyata** (React Quer
 - [x] ✅ Dokumen (`/api/v1/dokumens`)
 - [x] ✅ Perlengkapan (`/api/v1/perlengkapans`)
 
+**Investor + Modal Investor (nested)** (`/api/v1/investors`, `/api/v1/investors/:id/modals`) — PRD API §20
+- [x] ✅ List investor (paginated + search) + CRUD (nama, kode, bank, no. rekening, atas nama, status)
+- [x] ✅ Kelola **Modal Investor** (nested per investor) via modal — nominal, tipe bagi hasil (`percentage`/`fixed`), nilai bagi hasil, tgl pembagian (opsional), periode `shareStart`/`shareEnd` (`YYYY-MM`, kosong = ongoing), status
+
 **Belum:**
 - [ ] ⬜ Hubungkan Merek/Tipe, Vendor, Leasing, Sumber Lead, dll ke form modul transaksi (Inventory/CRM/Rekondisi/Pembayaran)
 - [ ] 🟡 Guard aksi master per-permission begitu kode permission tersedia dari backend
 
 ---
 
-## 14c. Status Integrasi API — `master_prd.md` (§1–§19)
+## 14c. Status Integrasi API — `master_prd.md` (§1–§20)
 
 > Hasil audit **endpoint-per-endpoint** dokumen API vs kode frontend. Indikator: ✅ terintegrasi penuh · 🟡 sebagian / belum di-UI · ⬜ belum.
-> **Kesimpulan: seluruh endpoint pada `master_prd.md` (§3–§19) sudah terintegrasi di layer API frontend.**
+> **Kesimpulan: seluruh endpoint pada `master_prd.md` (§3–§20) sudah terintegrasi di layer API frontend.**
 
 | § | Module | Endpoint (terpakai/total) | Frontend API | Halaman / UI | Status |
 |---|--------|:-------------------------:|--------------|--------------|:------:|
@@ -296,6 +300,8 @@ Endpoint master data sudah tersedia di backend & **terhubung nyata** (React Quer
 | 17 | Metode Pembayaran | 4/5 | `metodePembayaranApi` | Master · Metode Pembayaran | ✅ |
 | 18 | Dokumen | 4/5 | `dokumenApi` | Master · Dokumen | ✅ |
 | 19 | Perlengkapan | 4/5 | `perlengkapanApi` | Master · Perlengkapan | ✅ |
+| 20 | Investor | 4/5 | `investorApi` | Master · Investor | ✅ |
+| 20 | Investor Modal (nested in Investor) | 4/5 | `investorModalApi` | Master · Investor → Modal | ✅ |
 
 **Catatan kepatuhan aturan input PRD API:**
 - ✅ Branch: `picId` (dropdown user aktif) wajib; `code` auto-uppercase; `lokasi/longlat/kontak` wajib (§12.4).

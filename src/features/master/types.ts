@@ -36,6 +36,31 @@ export interface Branch {
   images?: BranchImage[];
 }
 
+export interface Investor {
+  id: string;
+  name: string;
+  code: string;
+  bankName: string;
+  bankAccount: string;
+  bankAccountName: string;
+  isActive: boolean;
+  modalCount?: number;
+}
+
+export type ProfitSharingType = 'percentage' | 'fixed';
+
+export interface InvestorModal {
+  id: string;
+  investorId?: string;
+  amount: number;
+  profitSharingType: ProfitSharingType;
+  profitSharing: number;
+  profitSharingDate?: string | null;
+  shareStart: string; // "YYYY-MM"
+  shareEnd?: string | null; // "YYYY-MM" | null (ongoing)
+  isActive: boolean;
+}
+
 export interface ListParams {
   page?: number;
   limit?: number;

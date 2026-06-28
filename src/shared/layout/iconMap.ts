@@ -1,7 +1,7 @@
 import {
   LayoutDashboard, Car, ShoppingCart, Wrench, BadgeCheck, Users, KeyRound,
   ReceiptText, Wallet, TrendingDown, ArrowLeftRight, BarChart3, Settings,
-  Tag, Building2, Database, ShieldCheck, SquareMenu, Folder, UserCog,
+  Tag, Building2, Database, ShieldCheck, SquareMenu, Folder, UserCog, PiggyBank,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -17,7 +17,7 @@ const BY_KEY: Record<string, LucideIcon> = {
   REKONDISI: Wrench, READY_STOCK: BadgeCheck, CRM: Users, TEST_DRIVE: KeyRound,
   PENJUALAN: ReceiptText, PEMBAYARAN: Wallet, PENGELUARAN: TrendingDown,
   CASHFLOW: ArrowLeftRight, LAPORAN: BarChart3, PENGATURAN: Settings,
-  MEREK: Tag, VENDOR: Wrench, BRANCH: Building2,
+  MEREK: Tag, VENDOR: Wrench, BRANCH: Building2, INVESTOR: PiggyBank,
 };
 
 export const resolveIcon = (opts: { icon?: string | null; code?: string; path?: string | null }): LucideIcon => {

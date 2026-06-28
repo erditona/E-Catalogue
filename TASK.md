@@ -39,6 +39,7 @@
 - [x] Cabang CRUD + **PIC (dropdown user aktif, `picId` wajib)** + galeri foto (upload/hapus dgn konfirmasi, media `/m/:id`)
 - [x] Akses Control: Role, User, Menu/Group/Permission (CRUD + set permission/role/branch) — halaman Menu dirapikan jadi alur 3-kolom (Group → Menu → Permission)
 - [x] Master sederhana via komponen generik `SimpleMasterPage` (`code` **wajib** + auto-uppercase): **Leasing, Sumber Lead, Pengecekan, Kategori Pengeluaran, Metode Pembayaran, Dokumen, Perlengkapan**
+- [x] **Investor + Modal Investor (nested)** CRUD — investor (nama/kode/bank/rekening) + rincian modal (nominal, tipe bagi hasil %/nominal, periode `YYYY-MM` start/end ongoing, tgl pembagian)
 
 ### Modul admin (dummy)
 - [x] Dashboard (stat, ready stock, grafik, pipeline, rekondisi, aktivitas)
@@ -49,7 +50,7 @@
 
 ---
 
-## 📊 Status Integrasi API (`master_prd.md` §3–§19)
+## 📊 Status Integrasi API (`master_prd.md` §3–§20)
 
 > Audit endpoint-per-endpoint dokumen API vs kode. **Semua endpoint sudah terintegrasi.** Indikator: ✅ penuh · 🟡 sebagian/belum di-UI · ⬜ belum.
 
@@ -70,6 +71,8 @@
 | Metode Pembayaran | `metodePembayaranApi` | 4/5 | ✅ |
 | Dokumen | `dokumenApi` | 4/5 | ✅ |
 | Perlengkapan | `perlengkapanApi` | 4/5 | ✅ |
+| Investor | `investorApi` | 4/5 | ✅ |
+| Investor Modal (nested) | `investorModalApi` | 4/5 | ✅ |
 
 > *4/5 = endpoint detail `GET /:id` belum dipakai karena data sudah lengkap dari endpoint list — bukan kekurangan.*
 >
